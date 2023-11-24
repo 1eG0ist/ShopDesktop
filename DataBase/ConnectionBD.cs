@@ -43,14 +43,13 @@ public class ConnectionBD
         try
         {
             List<User> users = Helper.Database.Users.ToList();
-            foreach (DBUser user in users)
+            foreach (User user in users)
             {
                 if (user.UserEmail == userEmail)
                 {
-                    return user;
+                    return new DBUser(user);
                 }
             }
-
             return null;
         }
         catch (DbUpdateException ex)

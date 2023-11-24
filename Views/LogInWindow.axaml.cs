@@ -160,36 +160,24 @@ public partial class LogInWindow : Window
     {
         if ( _signInState.Values.Any(b => b == false) )
         {
-            // TODO create dialog window with hint
-            SignInEmail.Text = "you have error";
+            SetErrorMessage("Some of filed have wrong filling");
         }
         else
         {
-            try
-            {
-                User takenUser = ConnectionBD.GetUser(SignInEmail.Text);
+            User takenUser = ConnectionBD.GetUser(SignInEmail.Text);
                 
-                if (takenUser == null)
-                {
-                    // TODO create hint that user not found
-                    return;
-                }
-                
-                if (takenUser.UserPassword == SignInPassword.Text)
-                {
-                    // TODO swap to main window
-                    SignInEmail.Text = "You swapped to main window";
-                }
-                else
-                {
-                    // TODO create hint that password is wrong
-                    SignInEmail.Text = "wrong password";
-                }
-            } catch (UserNotFoundException)
+            if (takenUser == null)
             {
-                // TODO create dialog window with hint that something went wrong
+                SetErrorMessage("user with this email not found");
+            } else if (takenUser.UserPassword == SignInPassword.Text)
+            {
+                new MainWindow().Show();
+                Close();
             }
-            // TODO swap from register page to main
+            else
+            {
+                SetErrorMessage("Wrong password");
+            }
         }
     }
 
@@ -197,46 +185,34 @@ public partial class LogInWindow : Window
     {
         if ( _signUpState.Values.Any(b => b == false) )
         {
-            ErrorMessageField.Text = "Some of filed have wrong filling";
-            ErrorArea.IsVisible = true;
+            SetErrorMessage("Some of filed have wrong filling");
         } else
         {
-            try
+            string? answer = ConnectionBD.CreateUser(SignUpUserName.Text, SignUpEmail.Text, SignUpConfirmPassword.Text);
+            if (answer == null)
             {
-                string? answer = ConnectionBD.CreateUser(SignUpUserName.Text, SignUpEmail.Text, SignUpConfirmPassword.Text);
-                if (answer == null)
+                new MainWindow().Show();
+                Close();
+            }
+            else
+            {
+                if (answer.Contains("23505"))
                 {
-                    new MainWindow().Show();
-                    Close();
-                }
-                else
-                {
-                    if (answer.Contains("23505"))
+                    if (answer.Contains("users_user_name_key"))
                     {
-                        if (answer.Contains("users_user_name_key"))
-                        {
-                            ErrorMessageField.Text = "This nick is already exists";
-                            ErrorArea.IsVisible = true;
-                        } else if (answer.Contains("users_user_email_key"))
-                        {
-                            ErrorMessageField.Text = "This email is already exists";
-                            ErrorArea.IsVisible = true;
-                        }
+                        SetErrorMessage("This nick is already exists");
+                    } else if (answer.Contains("users_user_email_key"))
+                    {
+                        SetErrorMessage("This email is already exists");
                     }
                 }
-                
             }
-            catch (NpgsqlException ex)
-            {
-                if (ex.ErrorCode.Equals(23505))
-                {
-                    // TODO create dialog window with hint that this nick is already occupied by another user
-                
-                        SignUpUserName.Text = "ты зашел в ошибку";
-                }
-                SignUpUserName.Text = "ты зашел в ошибку";
-            }
-            // TODO swap from register page to main
         }
+    }
+
+    private void SetErrorMessage(string mess)
+    {
+        ErrorMessageField.Text = mess;
+        ErrorArea.IsVisible = true;
     }
 }

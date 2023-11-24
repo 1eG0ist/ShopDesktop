@@ -15,4 +15,15 @@ public class DBUser: User
         Photo = photo;
         UserRole = userRole;
     }
+
+    public DBUser(User autoCreatingUser)
+    {
+        UserId = autoCreatingUser.UserId;
+        UserName = autoCreatingUser.UserName;
+        UserPassword = autoCreatingUser.UserPassword;
+        UserEmail = autoCreatingUser.UserEmail;
+        Age = autoCreatingUser.Age;
+        Photo = autoCreatingUser.Photo;
+        UserRole = autoCreatingUser.UserRole;
+    }
 }
