@@ -10,11 +10,11 @@
 
     <ItemGroup>
         <Folder Include="Models\"/>
-        <AvaloniaResource Include="Assets\**"/>
     </ItemGroup>
 
 
     <ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
         <PackageReference Include="Avalonia" Version="11.0.2"/>
         <PackageReference Include="Avalonia.Desktop" Version="11.0.2"/>
         <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.2"/>
@@ -22,5 +22,29 @@
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.2"/>
         <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.2"/>
+        <PackageReference Include="EntityFrameworkCore.Exceptions.PostgreSQL" Version="6.0.3" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Compile Update="Views\LogInWindow.axaml.cs">
+        <DependentUpon>LogInWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\MainWindow.axaml.cs">
+        <DependentUpon>MainWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Shop.ViewModels;
 using ShopDesktop.ViewModels;
 
 namespace ShopDesktop;
@@ -16,7 +17,7 @@ public class ViewLocator : IDataTemplate
         {
             return (Control)Activator.CreateInstance(type)!;
         }
-        
+
         return new TextBlock { Text = "Not Found: " + name };
     }
 

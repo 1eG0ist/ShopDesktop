@@ -1,6 +1,9 @@
+using Shop.DBModels;
+using ShopDesktop.Models;
+
 namespace Shop;
 
 public class SessionData
 {
-    static public User registeredUser = null;
+    static public DBUser registeredUser = null;
 }

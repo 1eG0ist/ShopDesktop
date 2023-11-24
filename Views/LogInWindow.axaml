@@ -6,15 +6,18 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Shop.LogInWindow"
         x:DataType="vm:LogInViewModel"
-        Title="Shop" Icon="Assets\app_logo.png">
+        Title="Shop" Icon="\Assets\app_logo.png">
+    
     <Window.Background>
         <LinearGradientBrush StartPoint="0%, 30%" EndPoint="0%, 70%">
             <GradientStop Color="Teal" Offset="0"/>
             <GradientStop Color="DarkSlateGray" Offset="1"/>
         </LinearGradientBrush>
     </Window.Background>
+    
     <Window.Styles>
         <Styles>
+            
             <Style Selector="TextBox">
                 <Setter Property="Width" Value="300"></Setter>
                 <Setter Property="Background" Value="Indigo"></Setter>
@@ -22,9 +25,46 @@
                 <Setter Property="CornerRadius" Value="5"></Setter>
                 <Setter Property="SelectionForegroundBrush" Value="Indigo"></Setter>
                 <Setter Property="Foreground" Value="Indigo"></Setter>
+                
             </Style>
+            
+            <Style Selector="Button.Access">
+                <Setter Property="Background" Value="Indigo"/>
+                <Setter Property="BorderBrush" Value="Teal"/>
+                <Setter Property="Foreground" Value="Lavender"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="BlueViolet"/>
+                    <Setter Property="BorderBrush" Value="Teal"/>
+                </Style>
+                
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                    <Setter Property="Background" Value="DarkSlateBlue"/>
+                    <Setter Property="BorderBrush" Value="Indigo"/>
+                </Style>
+                
+            </Style>
+            
+            <Style Selector="Button.ChooseVariant">
+                <Setter Property="Background" Value="Transparent"></Setter>
+                <Setter Property="Foreground" Value="Indigo"></Setter>
+                
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Foreground" Value="Teal"/>
+                </Style>
+                
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                    <Setter Property="Foreground" Value="DarkSlateBlue"/>
+                </Style>
+               
+            </Style>
+            
         </Styles>
+        
     </Window.Styles>
+    
+    
     <Border Width="600" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center"
             CornerRadius="50" Background="Lavender" BorderBrush="Indigo" BorderThickness="2"
             BoxShadow="5 5 10 2 DarkCyan"> 
@@ -39,8 +79,7 @@
                 <TextBox Name="SignInPassword" Watermark="password" Margin="0 10 0 0" RevealPassword="True" 
                          PasswordChar="·" LostFocus="SignInPassword_OnLostFocus"/>
             
-                <Button Name="AccessSignIn" HorizontalAlignment="Center" Margin="0 20 0 0 " 
-                        Background="Indigo" Foreground="Lavender" Click="AccessSignIn_OnClick">Sign in</Button>
+                <Button Name="AccessSignIn" Classes="Access" Margin="0 20 0 0 " Click="AccessSignIn_OnClick">Sign in</Button>
                 
             </StackPanel>
             
@@ -58,18 +97,20 @@
                 <TextBox Name="SignUpConfirmPassword" Watermark="Confirm Password" Margin="0 10 0 0" 
                          LostFocus="SignUpConfirmPassword_OnLostFocus" RevealPassword="True" PasswordChar="·"/>
             
-                <Button Name="AccessSignUp" HorizontalAlignment="Center" Margin="0 20 0 0 " 
-                        Background="Indigo" Foreground="Lavender" Click="AccessSignUp_OnClick">Sign Up</Button>
+                <Button Name="AccessSignUp" Classes="Access" Margin="0 20 0 0 " Click="AccessSignUp_OnClick">Sign Up</Button>
             
             </StackPanel>
             
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 0">
-                <Button Name="ChangeOnSignIn" Background="Transparent" Foreground="Indigo"
-                        Click="ChangeOnSignIn_OnClick">Sign in</Button>
+                <Button Name="ChangeOnSignIn" Classes="ChooseVariant" Click="ChangeOnSignIn_OnClick">Sign in</Button>
                 <Border Width="2" Height="20" Background="Indigo"></Border>
-                <Button Name="ChangeOnSignUp" Background="Transparent" Foreground="Indigo"
-                        Click="ChangeOnSignUp_OnClick">Sign Up</Button>
+                <Button Name="ChangeOnSignUp" Classes="ChooseVariant" Click="ChangeOnSignUp_OnClick">Sign Up</Button>
             </StackPanel>
+
+            <Border Grid.Row="0" Name="ErrorArea" BorderBrush="Firebrick" Background="Red" Height="30" Width="200" BorderThickness="1"
+                    CornerRadius="5" VerticalAlignment="Top" Margin="0 55 0 0 " IsVisible="False">
+                <TextBlock Name="ErrorMessageField" Foreground="DarkRed" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
             
         </Grid>
     </Border>

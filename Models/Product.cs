@@ -19,5 +19,5 @@ public partial class Product
 
     public int? ProductCount { get; set; }
 
-    public virtual ICollection<Transaction> Transactions { get; } = new List<Transaction>();
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }

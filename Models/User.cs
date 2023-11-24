@@ -20,15 +20,4 @@ public partial class User
     public int? UserRole { get; set; }
 
     public virtual Role? UserRoleNavigation { get; set; }
-
-    public User(int userId, string userName, string userPassword, string userEmail, int? age, byte[]? photo, int? userRole)
-    {
-        UserId = userId;
-        UserName = userName;
-        UserPassword = userPassword;
-        UserEmail = userEmail;
-        Age = age;
-        Photo = photo;
-        UserRole = userRole;
-    }
 }

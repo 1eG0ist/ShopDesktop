@@ -1,4 +1,6 @@
-﻿namespace ShopDesktop.ViewModels;
+﻿using Shop.ViewModels;
+
+namespace ShopDesktop.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {

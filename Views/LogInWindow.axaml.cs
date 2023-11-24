@@ -11,6 +11,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Npgsql;
 using Shop.Exceptions;
+using ShopDesktop.Models;
 
 namespace Shop;
 
@@ -157,62 +158,85 @@ public partial class LogInWindow : Window
 
     private void AccessSignIn_OnClick(object? sender, RoutedEventArgs e)
     {
-        // if ( _signInState.Values.Any(b => b == false) )
-        // {
-        //     // TODO create dialog window with hint
-        //     SignInEmail.Text = "you have error";
-        // }
-        // else
-        // {
-        //     try
-        //     {
-        //         SignInEmail.Text = "tut";
-        //         SessionData.registeredUser = ConnectionBD.getUser(SignInEmail.Text).Result;
-        //         SignInPassword.Text = "TUT";
-        //     } catch (UserNotFoundException)
-        //     {
-        //         // TODO create dialog window with hint that this user not found
-        //         SignInEmail.Text = "user not found";
-        //     }
-        //     // TODO swap from register page to main
-        // }
-        try
+        if ( _signInState.Values.Any(b => b == false) )
         {
-            SignInEmail.Text = "tut";
-            SessionData.registeredUser = ConnectionBD.GetUser(SignInEmail.Text).Result;
-            SignInPassword.Text = "TUT";
-        } catch (UserNotFoundException)
-        {
-            // TODO create dialog window with hint that this user not found
-            SignInEmail.Text = "user not found";
+            // TODO create dialog window with hint
+            SignInEmail.Text = "you have error";
         }
-        // TODO swap from register page to main
+        else
+        {
+            try
+            {
+                User takenUser = ConnectionBD.GetUser(SignInEmail.Text);
+                
+                if (takenUser == null)
+                {
+                    // TODO create hint that user not found
+                    return;
+                }
+                
+                if (takenUser.UserPassword == SignInPassword.Text)
+                {
+                    // TODO swap to main window
+                    SignInEmail.Text = "You swapped to main window";
+                }
+                else
+                {
+                    // TODO create hint that password is wrong
+                    SignInEmail.Text = "wrong password";
+                }
+            } catch (UserNotFoundException)
+            {
+                // TODO create dialog window with hint that something went wrong
+            }
+            // TODO swap from register page to main
+        }
     }
 
     private void AccessSignUp_OnClick(object? sender, RoutedEventArgs e)
     {
         if ( _signUpState.Values.Any(b => b == false) )
         {
-            // TODO create dialog window with hint
-            SignUpEmail.Text = "you have error";
+            ErrorMessageField.Text = "Some of filed have wrong filling";
+            ErrorArea.IsVisible = true;
         } else
         {
             try
             {
-                ConnectionBD.CreateUser(SignUpUserName.Text, SignUpEmail.Text, SignUpConfirmPassword.Text);
+                string? answer = ConnectionBD.CreateUser(SignUpUserName.Text, SignUpEmail.Text, SignUpConfirmPassword.Text);
+                if (answer == null)
+                {
+                    new MainWindow().Show();
+                    Close();
+                }
+                else
+                {
+                    if (answer.Contains("23505"))
+                    {
+                        if (answer.Contains("users_user_name_key"))
+                        {
+                            ErrorMessageField.Text = "This nick is already exists";
+                            ErrorArea.IsVisible = true;
+                        } else if (answer.Contains("users_user_email_key"))
+                        {
+                            ErrorMessageField.Text = "This email is already exists";
+                            ErrorArea.IsVisible = true;
+                        }
+                    }
+                }
+                
             }
-            catch (UserAlreadyExistsException)
+            catch (NpgsqlException ex)
             {
-                // if (ex.SqlState == "23505")
-                // {
-                //     // TODO create dialog window with hint that this nick is already occupied by another user
-                //     SignUpUserName.Text = "this nick is already occupied";
-                // }
+                if (ex.ErrorCode.Equals(23505))
+                {
+                    // TODO create dialog window with hint that this nick is already occupied by another user
+                
+                        SignUpUserName.Text = "ты зашел в ошибку";
+                }
                 SignUpUserName.Text = "ты зашел в ошибку";
             }
             // TODO swap from register page to main
         }
     }
-
-    
 }

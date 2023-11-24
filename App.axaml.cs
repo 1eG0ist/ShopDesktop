@@ -1,8 +1,8 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Shop;
 using ShopDesktop.ViewModels;
-using ShopDesktop.Views;
 
 namespace ShopDesktop;
 
@@ -17,7 +17,7 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow
+            desktop.MainWindow = new LogInWindow()
             {
                 DataContext = new MainWindowViewModel(),
             };

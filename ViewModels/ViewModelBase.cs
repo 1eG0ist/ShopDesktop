@@ -1,7 +1,8 @@
-﻿using ReactiveUI;
+using ReactiveUI;
 
-namespace ShopDesktop.ViewModels;
+namespace Shop.ViewModels;
 
 public class ViewModelBase : ReactiveObject
 {
+    
 }
