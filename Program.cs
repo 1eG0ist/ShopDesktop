@@ -2,7 +2,7 @@
 using Avalonia.ReactiveUI;
 using System;
 
-namespace ShopDesktop;
+namespace ShopDesktop.Views;
 
 class Program
 {

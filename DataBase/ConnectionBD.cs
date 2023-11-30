@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using Shop.DBModels;
 using Shop.Exceptions;
 using ShopDesktop;
+using ShopDesktop.DBModels;
 using ShopDesktop.Models;
 
-namespace Shop;
+namespace ShopDesktop;
 
 public class ConnectionBD
 {

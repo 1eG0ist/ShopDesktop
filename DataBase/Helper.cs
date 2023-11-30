@@ -1,6 +1,6 @@
 using ShopDesktop.Context;
 
-namespace Shop;
+namespace ShopDesktop;
 
 public class Helper
 {

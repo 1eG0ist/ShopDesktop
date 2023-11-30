@@ -10,10 +10,11 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Npgsql;
+using ShopDesktop.DBModels;
 using Shop.Exceptions;
 using ShopDesktop.Models;
 
-namespace Shop;
+namespace ShopDesktop.Views;
 
 public partial class LogInWindow : Window
 {
@@ -171,6 +172,7 @@ public partial class LogInWindow : Window
                 SetErrorMessage("user with this email not found");
             } else if (takenUser.UserPassword == SignInPassword.Text)
             {
+                SessionData.registeredUser = new DBUser(takenUser);
                 new MainWindow().Show();
                 Close();
             }

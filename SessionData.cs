@@ -1,7 +1,8 @@
-using Shop.DBModels;
+using ShopDesktop.DBModels;
+using ShopDesktop.DBModels;
 using ShopDesktop.Models;
 
-namespace Shop;
+namespace ShopDesktop;
 
 public class SessionData
 {
