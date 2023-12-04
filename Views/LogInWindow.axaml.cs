@@ -39,6 +39,7 @@ public partial class LogInWindow : Window
     public LogInWindow()
     {
         InitializeComponent();
+        ConnectionBD.FirstDBPickConnection();
     }
 
     private void ChangeOnSignUp_OnClick(object? sender, RoutedEventArgs e)

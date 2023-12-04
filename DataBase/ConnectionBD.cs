@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
+using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Npgsql;
 using Shop.Exceptions;
 using ShopDesktop;
@@ -13,6 +17,12 @@ namespace ShopDesktop;
 
 public class ConnectionBD
 {
+    public static void FirstDBPickConnection()
+    {
+        try { Helper.Database.Roles.ToList(); }
+        catch {}
+    }
+    
     public static string? CreateUser(string userName, string userEmail, string userPassword)
     {
        
@@ -56,5 +66,53 @@ public class ConnectionBD
         {
             return null;
         }
+    }
+
+    public static bool ChangeProfilePhoto(string photoPath)
+    {
+        try
+        {
+            var user = Helper.Database.Users.FirstOrDefault(u => u.UserId == SessionData.registeredUser.UserId);
+            if (user != null)
+            {
+                byte[] photoBytes = File.ReadAllBytes(photoPath); // Read file from bytea
+
+                user.Photo = photoBytes; // Update field, which contains photo in bytea
+                Helper.Database.SaveChanges();
+            }
+            else
+            {
+                return false; // This should never happens
+            }
+        }
+        catch
+        {
+            return false;
+        }
+        return true;
+    }
+    
+    public static Image GetUserProfilePhoto()
+    {
+        try
+        {
+            if (SessionData.registeredUser.Photo != null)
+            {
+                // Преобразуем массив байтов в изображение
+                var image = new Image();
+                using (var stream = new MemoryStream(SessionData.registeredUser.Photo))
+                {
+                    var bitmap = new Bitmap(stream);
+                    image.Source = bitmap;
+                }
+                return image;
+            }
+        }
+        catch
+        {
+            return null;
+            // Обработка ошибок при получении изображения из базы данных
+        }
+        return null;
     }
 }

@@ -15,26 +15,8 @@
     </Window.Background>
     
     <Window.Styles>
-        
+        <StyleInclude Source="Styles/MainStyle.axaml"></StyleInclude>
         <Styles>
-            
-            <Style Selector="TextBox.StandartInput">
-                <Setter Property="Opacity" Value="0.5"></Setter>
-                <Setter Property="CornerRadius" Value="10"></Setter>
-                <Setter Property="BorderBrush" Value="Aquamarine"></Setter>
-                <Setter Property="BorderThickness" Value="1"></Setter>
-            </Style>
-            
-            <Style Selector="Button.TransparentBtn">
-                <Setter Property="Background" Value="Transparent"></Setter>
-                <Style Selector="^:pointerover /template/ ContentPresenter">
-                    <Setter Property="Background" Value="Transparent"></Setter>
-                </Style>
-                
-                <Style Selector="^:pressed /template/ ContentPresenter">
-                    <Setter Property="Background" Value="DarkSlateGray"/>
-                </Style>
-            </Style>
             
             <Style Selector="Button.MenuItemBtn">
                 <Setter Property="Background" Value="Transparent"></Setter>
@@ -45,28 +27,6 @@
                 <Style Selector="^:pressed /template/ ContentPresenter">
                     <Setter Property="Background" Value="Indigo"/>
                     <Setter Property="Foreground" Value="Aquamarine"/>
-                </Style>
-            </Style>
-            
-            <Style Selector="TextBlock.ForegroundSettings">
-                <Setter Property="Foreground" Value="Indigo"></Setter>
-                <Setter Property="FontSize" Value="14"></Setter>
-                <Setter Property="FontWeight" Value="Normal"></Setter>
-            </Style>
-            
-            <Style Selector="Button.AcceptBtn">
-                <Setter Property="BorderBrush" Value="Aquamarine"></Setter>
-                <Setter Property="BorderThickness" Value="1"></Setter>
-                <Setter Property="CornerRadius" Value="10"></Setter>
-                
-                <Style Selector="^:pointerover /template/ ContentPresenter">
-                    <Setter Property="Background" Value="BlueViolet"/>
-                    <Setter Property="BorderBrush" Value="Teal"/>
-                </Style>
-                
-                <Style Selector="^:pressed /template/ ContentPresenter">
-                    <Setter Property="Background" Value="DarkSlateBlue"/>
-                    <Setter Property="BorderBrush" Value="Indigo"/>
                 </Style>
             </Style>
             
@@ -105,36 +65,41 @@
                     
                 </StackPanel>
                 
-                <StackPanel Grid.Column="2" Orientation="Vertical">
-                    <StackPanel Background="Transparent" Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center">
+                    <StackPanel Background="Transparent" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     
                         <Button Classes="TransparentBtn">
                             <Image Name="UserBox" Source="../Assets/box.png" Height="30"></Image>
                         </Button>
                     
-                        <Button Name="OpenProfileBtn" Classes="TransparentBtn" VerticalAlignment="Center" Click="OpenProfileBtn_OnClick">
+                        <Button Name="OpenProfileMenuBtn" Classes="TransparentBtn" VerticalAlignment="Center" Click="OpenProfileMenuBtn_OnClick">
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock Name="UserName" Foreground="Indigo" FontSize="18" FontWeight="DemiBold" VerticalAlignment="Center"/>
-                            
-                                <Image Name="UserIcon" Source="../Assets/avalonia-logo.ico" Height="30"/>
+
+                                <!-- TODO create this images like circle, mb need to user Clip, check it-->
+                                <Image Name="ProfileImage" Source="../Assets/no_profile_image.png" Height="30"/> 
                             </StackPanel>
                         </Button>
                     
                     </StackPanel>
                     
-                    <Border Name="ProfileMenu" IsVisible="False" Background="CadetBlue" CornerRadius="10" HorizontalAlignment="Right"
-                            Margin="0 10 10 0" Padding="10" BorderBrush="Aquamarine" BorderThickness="1">
+                    <Border Name="ProfileMenu" IsVisible="False" Background="CadetBlue" CornerRadius="10" 
+                            HorizontalAlignment="Right" Margin="0 10 10 0" Padding="-1 0 0 0"
+                            BorderBrush="Aquamarine" BorderThickness="1" Width="130">
                         <StackPanel Orientation="Vertical">
-                            <Button Name="ProfileBtn" Classes="MenuItemBtn" Click="ProfileBtn_OnClick">
-                                <TextBlock Text="Profile"/>
+                            <Button Name="ProfileBtn" Classes="MenuItemBtn" Click="ProfileBtn_OnClick" Width="130" 
+                                    HorizontalContentAlignment="Center" CornerRadius="10 10 0 0">
+                                <TextBlock Text="Profile" HorizontalAlignment="Left"/>
                             </Button>
                         
-                            <Button Name="SettingsBtn" Classes="MenuItemBtn" Click="SettingsBtn_OnClick">
-                                <TextBlock Text="Settings"/>
+                            <Button Name="SettingsBtn" Classes="MenuItemBtn" Click="SettingsBtn_OnClick" Width="130" 
+                                    HorizontalContentAlignment="Center">
+                                <TextBlock Text="Settings" HorizontalAlignment="Left"/>
                             </Button>
                         
-                            <Button Name="BuyHistoryBtn" Classes="MenuItemBtn" Click="BuyHistoryBtn_OnClick">
-                                <TextBlock Text="Buy history"/>
+                            <Button Name="BuyHistoryBtn" Classes="MenuItemBtn" Click="BuyHistoryBtn_OnClick" Width="130" 
+                                    HorizontalContentAlignment="Center" CornerRadius="0 0 10 10">
+                                <TextBlock Text="Buy history" HorizontalAlignment="Left"/>
                             </Button>
                         </StackPanel>
                     </Border>
@@ -196,7 +161,7 @@
             <Border Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                 
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="ASDADADADADADADsa"/>
+                    <TextBlock Text="{Binding Greeting}"/>
                 </StackPanel>
             </Border>
         </Grid>
