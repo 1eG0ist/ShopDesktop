@@ -1,7 +1,7 @@
 using ReactiveUI;
 using ShopDesktop.Models;
 
-namespace Shop.DBModels;
+namespace ShopDesktop.DBModels;
 
 public class DBUser: User
 {

@@ -10,10 +10,11 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Npgsql;
+using ShopDesktop.DBModels;
 using Shop.Exceptions;
 using ShopDesktop.Models;
 
-namespace Shop;
+namespace ShopDesktop.Views;
 
 public partial class LogInWindow : Window
 {
@@ -38,6 +39,7 @@ public partial class LogInWindow : Window
     public LogInWindow()
     {
         InitializeComponent();
+        ConnectionBD.FirstDBPickConnection();
     }
 
     private void ChangeOnSignUp_OnClick(object? sender, RoutedEventArgs e)
@@ -171,6 +173,7 @@ public partial class LogInWindow : Window
                 SetErrorMessage("user with this email not found");
             } else if (takenUser.UserPassword == SignInPassword.Text)
             {
+                SessionData.registeredUser = new DBUser(takenUser);
                 new MainWindow().Show();
                 Close();
             }
@@ -185,7 +188,7 @@ public partial class LogInWindow : Window
     {
         if ( _signUpState.Values.Any(b => b == false) )
         {
-            SetErrorMessage("Some of filed have wrong filling");
+            SetErrorMessage("Some field(s) have wrong filling");
         } else
         {
             string? answer = ConnectionBD.CreateUser(SignUpUserName.Text, SignUpEmail.Text, SignUpConfirmPassword.Text);

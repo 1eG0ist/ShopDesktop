@@ -1,7 +1,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Shop.ViewModels;
+using ShopDesktop.ViewModels;
 using ShopDesktop.ViewModels;
 
 namespace ShopDesktop;

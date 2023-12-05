@@ -1,0 +1,49 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="TextBox.StandartInput">
+        <Setter Property="Opacity" Value="0.5"></Setter>
+        <Setter Property="CornerRadius" Value="10"></Setter>
+        <Setter Property="BorderBrush" Value="Aquamarine"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+    </Style>
+    
+    <Style Selector="Button.TransparentBtn">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Style Selector="^:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"></Setter>
+        </Style>
+                
+        <Style Selector="^:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="DarkSlateGray"/>
+        </Style>
+    </Style>
+    
+    <Style Selector="TextBlock.ForegroundSettings">
+        <Setter Property="Foreground" Value="Indigo"></Setter>
+        <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="FontWeight" Value="Normal"></Setter>
+    </Style>
+    
+    <Style Selector="Button.AcceptBtn">
+        <Setter Property="BorderBrush" Value="Aquamarine"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="CornerRadius" Value="10"></Setter>
+                
+        <Style Selector="^:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="BlueViolet"/>
+            <Setter Property="BorderBrush" Value="Teal"/>
+        </Style>
+                
+        <Style Selector="^:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="DarkSlateBlue"/>
+            <Setter Property="BorderBrush" Value="Indigo"/>
+        </Style>
+    </Style>
+    
+</Styles>
