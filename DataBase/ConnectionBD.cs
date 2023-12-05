@@ -15,6 +15,8 @@ using ShopDesktop.Models;
 
 namespace ShopDesktop;
 
+// TODO now after update any in DB, and then select this we have old value, need to take new value with out reloading app
+
 public class ConnectionBD
 {
     public static void FirstDBPickConnection()
@@ -112,6 +114,61 @@ public class ConnectionBD
         {
             return null;
             // Обработка ошибок при получении изображения из базы данных
+        }
+        return null;
+    }
+
+    public static string? UpdateUserName(string nickName)
+    {
+        try
+        {
+            var user = Helper.Database.Users.FirstOrDefault(u => u.UserId == SessionData.registeredUser.UserId);
+            if (user != null)
+            {
+                user.UserName = nickName; // Update field, which contains photo in bytea
+                Helper.Database.SaveChanges();
+                return null;
+            }
+        }
+        catch (DbUpdateException ex)
+        {
+            return ex.InnerException.Message;
+        }
+        return null;
+    }
+    
+    public static string? UpdateUserAge(int age)
+    {
+        try
+        {
+            var user = Helper.Database.Users.FirstOrDefault(u => u.UserId == SessionData.registeredUser.UserId);
+            if (user != null)
+            {
+                user.Age = age; // Update field, which contains photo in bytea
+                Helper.Database.SaveChanges();
+            }
+        }
+        catch (DbUpdateException ex)
+        {
+            return ex.InnerException.Message;
+        }
+        return null;
+    }
+    
+    public static string? UpdateUserPassword(string password)
+    {
+        try
+        {
+            var user = Helper.Database.Users.FirstOrDefault(u => u.UserId == SessionData.registeredUser.UserId);
+            if (user != null)
+            {
+                user.UserPassword = password;
+                Helper.Database.SaveChanges();
+            }
+        }
+        catch (DbUpdateException ex)
+        {
+            return ex.InnerException.Message;
         }
         return null;
     }

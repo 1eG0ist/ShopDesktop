@@ -188,7 +188,7 @@ public partial class LogInWindow : Window
     {
         if ( _signUpState.Values.Any(b => b == false) )
         {
-            SetErrorMessage("Some of filed have wrong filling");
+            SetErrorMessage("Some field(s) have wrong filling");
         } else
         {
             string? answer = ConnectionBD.CreateUser(SignUpUserName.Text, SignUpEmail.Text, SignUpConfirmPassword.Text);
