@@ -42,13 +42,12 @@
         <DependentUpon>LogInWindow.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Views\MainWindow.axaml.cs">
-        <DependentUpon>MainWindow.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
       <Compile Update="Views\ProfileWindow.axaml.cs">
         <DependentUpon>ProfileWindow.axaml</DependentUpon>
         <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\MainWindow.axaml.cs">
+        <DependentUpon>MainWindow.axaml</DependentUpon>
       </Compile>
     </ItemGroup>
 </Project>

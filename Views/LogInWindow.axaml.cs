@@ -174,7 +174,7 @@ public partial class LogInWindow : Window
             } else if (takenUser.UserPassword == SignInPassword.Text)
             {
                 SessionData.registeredUser = new DBUser(takenUser);
-                new MainWindow().Show();
+                new ShopWindow().Show();
                 Close();
             }
             else
@@ -194,7 +194,7 @@ public partial class LogInWindow : Window
             string? answer = ConnectionBD.CreateUser(SignUpUserName.Text, SignUpEmail.Text, SignUpConfirmPassword.Text);
             if (answer == null)
             {
-                new MainWindow().Show();
+                new ShopWindow().Show();
                 Close();
             }
             else

@@ -11,5 +11,6 @@
   
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://ShopDesktop/Assets/Icons.axaml"/>
     </Application.Styles>
 </Application>

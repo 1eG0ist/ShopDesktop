@@ -31,7 +31,7 @@ public partial class ProfileWindow : Window
 
     private void GoBackBtn_OnClick(object? sender, RoutedEventArgs e)
     {
-        new MainWindow().Show();
+        new ShopWindow().Show();
         Close();
     }
 
