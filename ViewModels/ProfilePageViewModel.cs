@@ -2,7 +2,7 @@ using ShopDesktop.ViewModels;
 
 namespace ShopDesktop.ViewModels;
 
-public class ProfileWindowViewModel : ViewModelBase
+public class ProfilePageViewModel : ViewModelBase
 {
     public string UserNickName => SessionData.registeredUser.UserName;
     public string UserEmail => SessionData.registeredUser.UserEmail;

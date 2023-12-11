@@ -1,0 +1,154 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ShopDesktop.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ShopDesktop.Views.HomePageView"
+             x:DataType="vm:HomePageViewModel">
+    
+    <Control.Styles>
+
+        <Styles>
+            
+            <Style Selector="Button.Loupe">
+                <Setter Property="Background" Value="Transparent"></Setter>
+                <Setter Property="Padding" Value="3"></Setter>
+                <Setter Property="Margin" Value="3"></Setter>
+                
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Style>
+                
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                    <Setter Property="Background" Value="DarkSlateGray"/>
+                </Style>
+                
+            </Style>
+
+            <Style Selector="TextBox.StandartInput">
+                <Setter Property="Opacity" Value="0.5"></Setter>
+                <Setter Property="CornerRadius" Value="10"></Setter>
+                <Setter Property="BorderBrush" Value="Aquamarine"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+            </Style>
+
+            <Style Selector="Button.TransparentBtn">
+                <Setter Property="Background" Value="Transparent"></Setter>
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Style>
+
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                    <Setter Property="Background" Value="DarkSlateGray"/>
+                </Style>
+            </Style>
+
+            <Style Selector="Button.MenuItemBtn">
+                <Setter Property="Background" Value="Transparent"></Setter>
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Style>
+
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Indigo"/>
+                    <Setter Property="Foreground" Value="Aquamarine"/>
+                </Style>
+            </Style>
+
+            <Style Selector="TextBlock.ForegroundSettings">
+                <Setter Property="Foreground" Value="Indigo"></Setter>
+                <Setter Property="FontSize" Value="14"></Setter>
+                <Setter Property="FontWeight" Value="Normal"></Setter>
+            </Style>
+
+            <Style Selector="Button.AcceptBtn">
+                <Setter Property="BorderBrush" Value="Aquamarine"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+                <Setter Property="CornerRadius" Value="10"></Setter>
+
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="BlueViolet"/>
+                    <Setter Property="BorderBrush" Value="Teal"/>
+                </Style>
+
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                    <Setter Property="Background" Value="DarkSlateBlue"/>
+                    <Setter Property="BorderBrush" Value="Indigo"/>
+                </Style>
+            </Style>
+
+        </Styles>
+    </Control.Styles>
+    
+    <Grid ColumnDefinitions="200 *">
+        <Border Grid.Column="0" Padding="5" CornerRadius="15 0 0 0">
+        
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="Teal" Offset="0"/>
+                    <GradientStop Color="DarkSlateGray" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            
+            <StackPanel Orientation="Vertical">
+                
+                <StackPanel Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+                    
+                    <TextBox Name="SearchBox" Classes="StandartInput" Width="150" VerticalAlignment="Center" 
+                             Watermark="Search"/>
+                    
+                    <Button Name="StartSearch" Classes="Loupe" Height="35" Background="Transparent">
+                        <Image Source="../Assets/loupe.png"/>
+                    </Button>
+                    
+                </StackPanel>
+                
+                <TextBlock Text="Filters" Classes="ForegroundSettings" FontSize="18" FontWeight="Black" HorizontalAlignment="Center" />
+                
+                <ScrollViewer>
+                    <StackPanel>
+                        
+                        <TextBlock Text="Price" Classes="ForegroundSettings" FontWeight="Black" Margin="0 0 0 5"/>
+                
+                        <StackPanel Orientation="Horizontal" Spacing="6" MaxWidth="190">
+                            <TextBox Name="PriceFromField" Classes="StandartInput" Watermark="From" Width="92" />
+                            <TextBox Name="PriceToField" Classes="StandartInput" Watermark="To" Width="92"/>
+                        </StackPanel>
+                        
+                        <TextBlock Text="Rating" Classes="ForegroundSettings" Margin="0 20 0 5 " FontWeight="Black"/>
+                        
+                        <TextBox Name="MinRatingField" Classes="StandartInput" Watermark="Min. Rating" Width="92" HorizontalAlignment="Left"/>
+                        
+                        <StackPanel Orientation="Horizontal" Spacing="10" Margin="0 15 0 0 ">
+                            <TextBlock Text="Available in stock" Classes="ForegroundSettings" FontWeight="Black" VerticalAlignment="Center"/>
+                            <CheckBox Name="IsNeedInStock" />
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" Spacing="10" Margin="0 15 0 0 ">
+                            <TextBlock Text="Have discount" Classes="ForegroundSettings" FontWeight="Black" VerticalAlignment="Center"/>
+                            <CheckBox Name="IsHaveDiscount" />
+                        </StackPanel>
+                        
+                        <TextBlock Text="Manufacturer" Classes="ForegroundSettings" Margin="0 20 0 5 " FontWeight="Black"/>
+                        
+                        <TextBox Name="Manufacturer" Classes="StandartInput" Watermark="Razer" Width="190" HorizontalAlignment="Left"></TextBox>
+                        
+                    </StackPanel>
+                </ScrollViewer>
+                
+                <Button Name="ConfirmFilters" Click="ConfirmFilters_OnClick" Classes="AcceptBtn" 
+                        HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 30 0 0">
+                    <TextBlock Text="Confirm" Classes="ForegroundSettings"/>
+                </Button>
+                
+            </StackPanel>
+        </Border>
+        <Border Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="AHAHAHAHA"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -12,12 +12,12 @@ using Image = Avalonia.Controls.Image;
 
 namespace ShopDesktop.Views;
 
-public partial class ShopWindow : Window
+public partial class ShopWindowView : Window
 {
     private DBUser _user;
     private bool _isPaneOpen = true;
     
-    public ShopWindow()
+    public ShopWindowView()
     {
         InitializeComponent();
         if (SessionData.registeredUser != null)
@@ -49,23 +49,7 @@ public partial class ShopWindow : Window
         UserName.IsVisible = !UserName.IsVisible;
         if (_isPaneOpen)
         {
-            HomeItem.Content = new PathIcon
-            {
-                Data = this.FindResource("HomeRegular") as Geometry
-            };
-            ProfileItem.Content = new PathIcon
-            {
-                Data = this.FindResource("PersonRegular") as Geometry
-            };
-            HistoryItem.Content = new PathIcon
-            {
-                Data = this.FindResource("DocumentOnePageRegular") as Geometry
-            };
-            SettingsItem.Content = new PathIcon
-            {
-                Data = this.FindResource("SettingsRegular") as Geometry
-            };
-            LogOutItem.Content = new PathIcon
+            LogOutBtn.Content = new PathIcon
             {
                 Data = this.FindResource("SignOutRegular") as Geometry
             };
@@ -80,18 +64,38 @@ public partial class ShopWindow : Window
         }
         else
         {
-            HomeItem.Content = "Home";
-            ProfileItem.Content = "Profile";
-            HistoryItem.Content = "Buy history";
-            SettingsItem.Content = "Settings";
-            LogOutItem.Content = "Log out";
+            LogOutBtn.Content = "Log out";
             SwapToAdminPanelBtn.Content = "Admin Panel";
             SwapToSellerPanelBtn.Content = "Seller Panel";
         }
         _isPaneOpen = !_isPaneOpen;
     }
 
-    private void LogOutItem_OnTapped(object? sender, TappedEventArgs e)
+    private void SwapToAdminPanelBtn_OnTapped(object? sender, TappedEventArgs e)
+    {
+        if (SessionData.registeredUser.UserRole > 2)
+        {
+            new AdminPanelView().Show();
+        }
+        else
+        {
+            new ShowInfoView("There is no access").Show();
+        }
+    }
+
+    private void SwapToSellerPanelBtn_OnTapped(object? sender, TappedEventArgs e)
+    {
+        if (SessionData.registeredUser.UserRole > 1)
+        {
+            new SellerPanelView().Show();
+        }
+        else
+        {
+            new ShowInfoView("There is no access").Show();
+        }
+    }
+
+    private void LogOutBtn_OnTapped(object? sender, TappedEventArgs e)
     {
         SessionData.registeredUser = null;
         new LogInWindow().Show();

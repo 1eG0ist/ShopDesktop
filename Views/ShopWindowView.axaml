@@ -2,10 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModels="clr-namespace:ShopDesktop.ViewModels"
+        xmlns:vm="using:ShopDesktop.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="ShopDesktop.Views.ShopWindow"
-        x:DataType="viewModels:ShopWindowViewModel"
+        x:Class="ShopDesktop.Views.ShopWindowView"
+        x:DataType="vm:ShopWindowViewModel"
         Title="Shop" Icon="\Assets\app_logo.png">
     
     <Window.Background>
@@ -14,14 +14,18 @@
         </LinearGradientBrush>
     </Window.Background>
     
+    <Window.DataContext>
+        <vm:ShopWindowViewModel/>
+    </Window.DataContext>
+    
     <Window.Styles>
         <StyleInclude Source="Styles/MainStyle.axaml"></StyleInclude>
         <Styles>
             
-            <Style Selector="ListBoxItem.PaneMenu">
+            <Style Selector="ListBoxItem">
                 <Setter Property="Background" Value="Teal"></Setter>
                 <Setter Property="Height" Value="30"></Setter>
-                <Setter Property="Padding" Value="0"></Setter>
+                <Setter Property="Padding" Value="5 0 0 0 "></Setter>
                 <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
                 <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
                 <Setter Property="Opacity" Value="0.9"></Setter>
@@ -40,17 +44,6 @@
                 <Style Selector="^:pressed /template/ ContentPresenter">
                     <Setter Property="Background" Value="Indigo"/>
                     <Setter Property="Foreground" Value="Aquamarine"/>
-                </Style>
-            </Style>
-            
-            <Style Selector="Button.SwapPane">
-                <Setter Property="Background" Value="Transparent"></Setter>
-                <Style Selector="^:pointerover /template/ ContentPresenter">
-                    <Setter Property="Background" Value="DarkSlateGray"></Setter>
-                </Style>
-                
-                <Style Selector="^:pressed /template/ ContentPresenter">
-                    <Setter Property="Background" Value="Teal"/>
                 </Style>
             </Style>
             
@@ -78,14 +71,14 @@
                     </LinearGradientBrush>
                 </Border.Background>
                 
-                <Grid RowDefinitions="Auto * 70">
+                <Grid RowDefinitions="Auto * Auto">
                     <StackPanel Grid.Row="0" Orientation="Vertical" Spacing="5">
                         <Grid ColumnDefinitions="*">
                             <Border Grid.Column="0" CornerRadius="50">
-                                <Image Name="ProfileImage" Source="../Assets/no_profile_image.png" Height="70"
+                                <Image Name="ProfileImage" Source="../Assets/no_profile_image.png" Height="70" Width="70"
                                        HorizontalAlignment="Left" />
                             </Border>
-                            <Button Grid.Column="0" Name="ChangePaneVisibilityBtn" Classes="SwapPane" 
+                            <Button Grid.Column="0" Name="ChangePaneVisibilityBtn" Classes="IconButton" 
                                     HorizontalAlignment="Right" Click="ChangePaneVisibilityBtn_OnClick"
                                     VerticalAlignment="Top" Margin="0 0 0 20">
                                 <PathIcon Data="{StaticResource LineHorizontal3Regular}"/>
@@ -96,28 +89,42 @@
                                    TextWrapping="Wrap" Margin="0 0 0 5"/>
                     </StackPanel>
                     
-                    <ListBox Grid.Row="1" Background="Transparent" >
-                        <ListBoxItem Name="HomeItem" Classes="PaneMenu" Content="Home"/>
-                        <ListBoxItem Name="ProfileItem" Classes="PaneMenu" Content="Profile"/>
-                        <ListBoxItem Name="HistoryItem" Classes="PaneMenu" Content="Buy history"/>
-                        <ListBoxItem Name="SettingsItem" Classes="PaneMenu" Content="Settings"/>
-                        <ListBoxItem Name="LogOutItem" Classes="PaneMenu" Content="Log out" Tapped="LogOutItem_OnTapped"/>
+                    <ListBox Grid.Row="1" Background="Transparent" ItemsSource="{Binding Items}"
+                             SelectedItem="{Binding SelectedListItem}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type vm:ListItemTemplate}">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <PathIcon Data="{StaticResource LineHorizontal3Regular}"/>
+                                    <TextBlock Name="{Binding ItemName}" 
+                                               Text="{Binding ItemLabel}"/>
+                                    <!-- <PathIcon Data="{Binding ItemImg}"/> TODO get icons in viewmodel for each el-->
+                                </StackPanel>
+                                <!-- <ListBoxItem Classes="PaneMenu" Content="{Binding Label}"/> -->
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
                     
-                    <StackPanel Grid.Row="2" Spacing="5" Orientation="Vertical" VerticalAlignment="Bottom" Background="Transparent">
-                        <Button Name="SwapToAdminPanelBtn" Classes="PaneMenu" Content="Admin Panel" />
-                        <Button Name="SwapToSellerPanelBtn" Classes="PaneMenu" Content="Seller Panel" />
-                    </StackPanel>
+                    <!-- <ListBox Grid.Row="1" Background="Transparent" > -->
+                    <!--     <ListBoxItem Name="HomeItem" Classes="PaneMenu" Content="Home" Tapped="HomeItem_OnTapped"/> -->
+                    <!--     <ListBoxItem Name="ProfileItem" Classes="PaneMenu" Content="Profile" Tapped="ProfileItem_OnTapped"/> -->
+                    <!--     <ListBoxItem Name="HistoryItem" Classes="PaneMenu" Content="Buy history"/> -->
+                    <!--     <ListBoxItem Name="SettingsItem" Classes="PaneMenu" Content="Settings"/> -->
+                    <!--     <ListBoxItem Name="LogOutItem" Classes="PaneMenu" Content="Log out" Tapped="LogOutItem_OnTapped"/> -->
+                    <!-- </ListBox> -->
+                    
+                    <ListBox Grid.Row="2" VerticalAlignment="Bottom" Background="Transparent">
+                        <ListBoxItem Name="SwapToAdminPanelBtn" Padding="0" Content="Admin Panel" Tapped="SwapToAdminPanelBtn_OnTapped"/>
+                        <ListBoxItem Name="SwapToSellerPanelBtn" Padding="0" Content="Seller Panel" Tapped="SwapToSellerPanelBtn_OnTapped"/>
+                        <ListBoxItem Name="LogOutBtn" Padding="0" Content="Log out" Tapped="LogOutBtn_OnTapped"/>
+                    </ListBox>
                     
                 </Grid>
-                
-                
                 
             </Border>
         </SplitView.Pane>
         
         <SplitView.Content>
-            <Border CornerRadius="12 0 0 0 "
+            <Border CornerRadius="15 0 0 0 "
                     Margin="10 0 0 0">
                 
                 <Border.Background>
@@ -127,7 +134,7 @@
                     </LinearGradientBrush>
                 </Border.Background>
                 
-                <!-- <TransitioningContentControl Content="{Binding CurrentPage}"/> -->
+                <TransitioningContentControl Name="ContentArea" Content="{Binding CurrentPage}"/>
                 
             </Border>
         </SplitView.Content>

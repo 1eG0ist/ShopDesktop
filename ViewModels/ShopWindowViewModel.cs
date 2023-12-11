@@ -1,36 +1,51 @@
-using System.Windows.Input;
-using ReactiveUI;
+using System;
+using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Net.Mime;
+using Avalonia.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ShopDesktop.ViewModels;
 
-public class ShopWindowViewModel : ViewModelBase
+public partial class ShopWindowViewModel : ViewModelBase
 {
+    [ObservableProperty]
+    private ViewModelBase _currentPage = new HomePageViewModel();
 
-    private bool _isPaneOpen = true;
+    [ObservableProperty] 
+    private ListItemTemplate? _selectedListItem;
+
+    partial void OnSelectedListItemChanged(ListItemTemplate? value)
+    {
+        if (value is null) return;
+        var instance = Activator.CreateInstance(value.ModelType);
+        if (instance is null) return;
+        CurrentPage = (ViewModelBase)instance;
+    }
+
+    public ObservableCollection<ListItemTemplate> Items { get; } = new()
+    {
+        new ListItemTemplate(typeof(HomePageViewModel)),
+        new ListItemTemplate(typeof(ProfilePageViewModel)),
+        new ListItemTemplate(typeof(SettingsPageViewModel)),
+    };
+}
+
+public class ListItemTemplate
+{
     
-    public bool IsPaneOpen
+    public ListItemTemplate( Type type)
     {
-        get { return _isPaneOpen; }
-        set
-        {
-            _isPaneOpen = value;
-            this.RaiseAndSetIfChanged(ref _isPaneOpen, value);
-        }
+        ModelType = type;
+        ItemName = type.Name.Replace("PageViewModel", "") + "Name"; 
+        ItemLabel = type.Name.Replace("PageViewModel", "");
+        // TODO: need ability to take icons from Icons.axaml by name for each item here
     }
 
-    public ICommand SwapPaneVisibilityCommand { get; }
-    
-    public ShopWindowViewModel()
-    {
-        SwapPaneVisibilityCommand = ReactiveCommand.Create(SwapPaneVisibility);
-    }
 
-    public void SwapPaneVisibility()
-    {
-        IsPaneOpen = !IsPaneOpen;
-    }
-
-    public bool isSellerPanelBtnVisible => SessionData.registeredUser.UserRole > 1;
-    public bool isAdminPanelBtnVisible => SessionData.registeredUser.UserRole > 2;
-
+    public string ItemName { get; }
+    public string ItemLabel { get; set;  }
+    public Geometry ItemImg { get; }
+    public Type ModelType { get; }
 }
