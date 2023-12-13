@@ -1,13 +1,12 @@
-<Window xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:ShopDesktop.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="ShopDesktop.Views.ProfileWindow" x:DataType="vm:ProfileWindowViewModel"
-        Title="ProfileWindow" Background="DarkSlateGray"
-        Icon="\Assets\app_logo.png">
-    <Window.Styles>
+        x:Class="ShopDesktop.Views.ProfilePageView" x:DataType="vm:ProfilePageViewModel"
+        Background="DarkSlateGray">
+    <Control.Styles>
         <StyleInclude Source="Styles/MainStyle.axaml"></StyleInclude>
 
         <Style Selector="TextBlock.ForegroundSettings">
@@ -76,7 +75,7 @@
             </Style>
         </Style>
         
-    </Window.Styles>
+    </Control.Styles>
     
     <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="15" Background="Teal" 
             BorderBrush="Aquamarine" BorderThickness="1" Width="400" Height="500" Padding="15">
@@ -84,18 +83,13 @@
             <Grid ColumnDefinitions="*">
                 <TextBlock Grid.Column="0" Name="Header" Text="Profile Info" Classes="ForegroundSettings" HorizontalAlignment="Center" 
                            FontSize="24" FontWeight="Black"/>
-                <Button Grid.Column="0" Name="GoBackBtn" HorizontalAlignment="Right" Click="GoBackBtn_OnClick" Classes="TransparentBtn">
-                    <Image Source="../Assets/go_back_arrow.png" Height="25"/>
-                </Button>
             </Grid>
             <StackPanel Orientation="Horizontal" Spacing="15">
                 
                 <StackPanel Orientation="Vertical" Spacing="10">
-                    <Image Name="ProfileImage" Source="../Assets/no_profile_image.png" Height="150" VerticalAlignment="Top"/>
+                    <Image Name="ProfileImage" Source="../Assets/no_profile_image.png" Height="150" Width="150" VerticalAlignment="Top"/>
                     <Button Name="ChangeProfilePhoto" Classes="ChangeItemBtn" HorizontalAlignment="Center" 
                             Click="ChangeProfilePhoto_OnClick">Change photo</Button>
-                    <Button Name="LogOutBtn" Classes="ChangeItemBtn" HorizontalAlignment="Center" 
-                            Click="LogOutBtn_OnClick">Log out</Button>
                     <Grid>
                         <Border Name="ShowErrorArea" HorizontalAlignment="Center" Margin="0 30 0 0" BorderThickness="1"
                                         BorderBrush="Red" Background="DarkRed" CornerRadius="10" Padding="10 5 10 5"
@@ -166,4 +160,4 @@
             
         </StackPanel>
     </Border>
-</Window>
+</UserControl>

@@ -46,4 +46,15 @@
         </Style>
     </Style>
     
+    <Style Selector="Button.IconButton">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Style Selector="^:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="DarkSlateGray"></Setter>
+        </Style>
+                
+        <Style Selector="^:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="Teal"/>
+        </Style>
+    </Style>
+    
 </Styles>

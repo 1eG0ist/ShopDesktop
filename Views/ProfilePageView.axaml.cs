@@ -3,19 +3,19 @@ using System.Runtime.InteropServices.ComTypes;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
 
 namespace ShopDesktop.Views;
 
-public partial class ProfileWindow : Window
+public partial class ProfilePageView : UserControl
 {
     private SolidColorBrush _errorBorder = new SolidColorBrush(Colors.Red);
     private Thickness _errorThickness = new Thickness(2);
     private SolidColorBrush _rightBorder = new SolidColorBrush(Colors.Indigo);
     private Thickness _rightThickness = new Thickness(1);
     
-    public ProfileWindow()
+    public ProfilePageView()
     {
         InitializeComponent();
         PutUserProfilePhoto();
@@ -29,17 +29,11 @@ public partial class ProfileWindow : Window
         if (UserProfilePhoto != null) ProfileImage.Source = UserProfilePhoto.Source;
     }
 
-    private void GoBackBtn_OnClick(object? sender, RoutedEventArgs e)
-    {
-        new MainWindow().Show();
-        Close();
-    }
-
     async private void ChangeProfilePhoto_OnClick(object? sender, RoutedEventArgs e)
     {
         OpenFileDialog dialog = new OpenFileDialog();
         dialog.Title = "Choose new photo";
-        var result = await dialog.ShowAsync(this);
+        var result = await dialog.ShowAsync(new ShopWindowView());
         if (result != null && result.Length != 0)
         {
             // the selected file is available in the result path
@@ -157,24 +151,22 @@ public partial class ProfileWindow : Window
         }
     }
 
-    private void LogOutBtn_OnClick(object? sender, RoutedEventArgs e)
-    {
-        SessionData.registeredUser = null;
-        new LogInWindow().Show();
-        Close();
-    }
-
     private void Password_TextChanged(object? sender, TextChangedEventArgs e)
     {
-        if (Password.Text.Length > 5 && Password.Text != SessionData.registeredUser.UserPassword)
+        try
         {
-            ConfirmPassword.IsVisible = true;
-            OldPassword.IsVisible = true;
-        }
-        else
-        {
-            ConfirmPassword.IsVisible = false;
-            OldPassword.IsVisible = false;
-        }
+            if (Password.Text.Length > 5 && Password.Text != SessionData.registeredUser.UserPassword)
+            {
+                ConfirmPassword.IsVisible = true;
+                OldPassword.IsVisible = true;
+            }
+            else
+            {
+                ConfirmPassword.IsVisible = false;
+                OldPassword.IsVisible = false;
+            }
+        } catch {}
+        
+
     }
 }

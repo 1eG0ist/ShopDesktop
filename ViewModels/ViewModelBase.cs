@@ -1,8 +1,8 @@
-using ReactiveUI;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ShopDesktop.ViewModels;
 
-public class ViewModelBase : ReactiveObject
+public class ViewModelBase : ObservableObject
 {
     
 }

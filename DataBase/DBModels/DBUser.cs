@@ -1,4 +1,3 @@
-using ReactiveUI;
 using ShopDesktop.Models;
 
 namespace ShopDesktop.DBModels;
