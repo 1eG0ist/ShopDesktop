@@ -81,7 +81,7 @@
                             <Button Grid.Column="0" Name="ChangePaneVisibilityBtn" Classes="IconButton" 
                                     HorizontalAlignment="Right" Click="ChangePaneVisibilityBtn_OnClick"
                                     VerticalAlignment="Top" Margin="0 0 0 20">
-                                <PathIcon Data="{StaticResource LineHorizontal3Regular}"/>
+                                <PathIcon Data="{StaticResource LineHorizontal3Regular}" Foreground="Aquamarine"/>
                             </Button>
                         </Grid>
                         <TextBlock Name="UserName" Foreground="Indigo" FontSize="14" FontWeight="DemiBold" 

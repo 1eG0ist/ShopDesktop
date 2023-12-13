@@ -1,10 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
-using System.Drawing;
-using System.Net.Mime;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 namespace ShopDesktop.ViewModels;
 
@@ -27,6 +24,7 @@ public partial class ShopWindowViewModel : ViewModelBase
     public ObservableCollection<ListItemTemplate> Items { get; } = new()
     {
         new ListItemTemplate(typeof(HomePageViewModel)),
+        new ListItemTemplate(typeof(CartPageViewModel)),
         new ListItemTemplate(typeof(ProfilePageViewModel)),
         new ListItemTemplate(typeof(SettingsPageViewModel)),
     };
