@@ -1,6 +1,12 @@
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Platform;
+using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ShopDesktop.ViewModels;
@@ -21,23 +27,33 @@ public partial class ShopWindowViewModel : ViewModelBase
         CurrentPage = (ViewModelBase)instance;
     }
 
+    private static StreamGeometry GetIcon(string iconName)
+    {
+        var application = Application.Current;
+        var streamGeometry = application.FindResource(iconName) as StreamGeometry;
+
+        return streamGeometry;
+    }
+
     public ObservableCollection<ListItemTemplate> Items { get; } = new()
     {
-        new ListItemTemplate(typeof(HomePageViewModel)),
-        new ListItemTemplate(typeof(CartPageViewModel)),
-        new ListItemTemplate(typeof(ProfilePageViewModel)),
-        new ListItemTemplate(typeof(SettingsPageViewModel)),
+        new ListItemTemplate(typeof(HomePageViewModel), GetIcon("Home")),
+        new ListItemTemplate(typeof(CartPageViewModel), GetIcon("Cart")),
+        new ListItemTemplate(typeof(ProfilePageViewModel), GetIcon("Profile")),
+        new ListItemTemplate(typeof(SettingsPageViewModel), GetIcon("Settings")),
     };
 }
 
 public class ListItemTemplate
 {
+    // public var icons =
     
-    public ListItemTemplate( Type type)
+    public ListItemTemplate( Type type, StreamGeometry PageIcon)
     {
         ModelType = type;
         ItemName = type.Name.Replace("PageViewModel", "") + "Name"; 
         ItemLabel = type.Name.Replace("PageViewModel", "");
+        ItemImg = PageIcon;
         // TODO: need ability to take icons from Icons.axaml by name for each item here
     }
 

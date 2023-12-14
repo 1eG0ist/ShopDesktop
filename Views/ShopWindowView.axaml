@@ -94,10 +94,10 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type vm:ListItemTemplate}">
                                 <StackPanel Orientation="Horizontal" Spacing="10">
-                                    <PathIcon Data="{StaticResource LineHorizontal3Regular}"/>
+                                    <PathIcon Data="{Binding ItemImg}"/>
                                     <TextBlock Name="{Binding ItemName}" 
                                                Text="{Binding ItemLabel}"/>
-                                    <!-- <PathIcon Data="{Binding ItemImg}"/> TODO get icons in viewmodel for each el-->
+                                    
                                 </StackPanel>
                                 <!-- <ListBoxItem Classes="PaneMenu" Content="{Binding Label}"/> -->
                             </DataTemplate>
