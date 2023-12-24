@@ -5,19 +5,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopDesktop.Models;
 
-public partial class Transaction
+public partial class Notification
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int TransactionId { get; set; }
+    public int NotificationId { get; set; }
 
     public int? UserId { get; set; }
 
-    public int? ProductId { get; set; }
+    public string? NotificationText { get; set; }
 
-    public DateTime? TransactionData { get; set; }
+    public int? NotificationAuthor { get; set; }
 
-    public int? TransactionProductCount { get; set; }
+    public DateTime? NotificationData { get; set; }
 
-    public virtual Product? Product { get; set; }
+    public bool? IsNew { get; set; }
 }

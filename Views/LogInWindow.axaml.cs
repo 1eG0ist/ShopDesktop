@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection.Metadata;
+using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -173,7 +174,8 @@ public partial class LogInWindow : Window
                 SetErrorMessage("user with this email not found");
             } else if (takenUser.UserPassword == SignInPassword.Text)
             {
-                SessionData.registeredUser = new DBUser(takenUser);
+                SessionData.registeredUser = takenUser;
+                SessionData.userRoles = ConnectionBD.GetUserRoles(takenUser.UserId);
                 new ShopWindowView().Show();
                 Close();
             }
@@ -194,8 +196,20 @@ public partial class LogInWindow : Window
             string? answer = ConnectionBD.CreateUser(SignUpUserName.Text, SignUpEmail.Text, SignUpConfirmPassword.Text);
             if (answer == null)
             {
-                new ShopWindowView().Show();
-                Close();
+                User user = ConnectionBD.GetUser(SignUpEmail.Text);
+                UserRole userRole = ModelConstructors.createUserRole(user.UserId, 1);
+                string? answerRole = ConnectionBD.createUserRole(userRole);
+                if (answerRole == null)
+                {
+                    SessionData.registeredUser = user;
+                    SessionData.userRoles = ConnectionBD.GetUserRoles(user.UserId);
+                    new ShopWindowView().Show();
+                    Close();
+                }
+                else
+                {
+                    SetErrorMessage("Something went wrong with roles on server");
+                }
             }
             else
             {

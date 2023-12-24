@@ -5,13 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopDesktop.Models;
 
-public partial class Role
+public partial class UserRole
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int RoleId { get; set; }
+    public int UserRoleId { get; set; }
 
-    public string? RoleName { get; set; }
+    public int? UserId { get; set; }
 
-    public string? RoleDescription { get; set; }
+    public int? RoleId { get; set; }
+
+    public virtual User? Role { get; set; }
+
+    public virtual User? User { get; set; }
 }

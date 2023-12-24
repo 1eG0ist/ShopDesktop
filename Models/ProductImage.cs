@@ -5,13 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShopDesktop.Models;
 
-public partial class Role
+public partial class ProductImage
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int RoleId { get; set; }
+    public int ProdImgId { get; set; }
 
-    public string? RoleName { get; set; }
+    public int? ProductId { get; set; }
 
-    public string? RoleDescription { get; set; }
+    public byte[]? ProductImg { get; set; }
+
+    public virtual Product? Product { get; set; }
 }

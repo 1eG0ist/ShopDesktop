@@ -1,11 +1,13 @@
 using System.Data.SqlTypes;
 using System.Drawing;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Castle.Components.DictionaryAdapter.Xml;
 using ShopDesktop.DBModels;
 using ShopDesktop.ViewModels;
 using Image = Avalonia.Controls.Image;
@@ -14,7 +16,6 @@ namespace ShopDesktop.Views;
 
 public partial class ShopWindowView : Window
 {
-    private DBUser _user;
     private bool _isPaneOpen = true;
     
     public ShopWindowView()
@@ -22,10 +23,9 @@ public partial class ShopWindowView : Window
         InitializeComponent();
         if (SessionData.registeredUser != null)
         {
-            _user = new DBUser(SessionData.registeredUser);
-            UserName.Text = _user.UserName;
-            SwapToAdminPanelBtn.IsVisible = _user.UserRole > 2; 
-            SwapToSellerPanelBtn.IsVisible = _user.UserRole > 1;
+            UserName.Text = SessionData.registeredUser.UserName;
+            SwapToAdminPanelBtn.IsVisible = SessionData.userRoles.Contains("Admin"); 
+            SwapToSellerPanelBtn.IsVisible = SessionData.userRoles.Contains("Seller"); 
             PutUserProfilePhoto();
         }
     }
@@ -73,7 +73,7 @@ public partial class ShopWindowView : Window
 
     private void SwapToAdminPanelBtn_OnTapped(object? sender, TappedEventArgs e)
     {
-        if (SessionData.registeredUser.UserRole > 2)
+        if (SessionData.userRoles.Contains("Admin"))
         {
             new AdminPanelView().Show();
         }
@@ -85,7 +85,7 @@ public partial class ShopWindowView : Window
 
     private void SwapToSellerPanelBtn_OnTapped(object? sender, TappedEventArgs e)
     {
-        if (SessionData.registeredUser.UserRole > 1)
+        if (SessionData.userRoles.Contains("Seller"))
         {
             new SellerPanelView().Show();
         }
