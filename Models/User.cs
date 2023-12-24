@@ -21,6 +21,8 @@ public partial class User
 
     public byte[]? Photo { get; set; }
 
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
     public virtual ICollection<UserRole> UserRoleRoles { get; set; } = new List<UserRole>();
 
     public virtual ICollection<UserRole> UserRoleUsers { get; set; } = new List<UserRole>();

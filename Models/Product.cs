@@ -21,9 +21,9 @@ public partial class Product
 
     public int? ProductCount { get; set; }
 
-    public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+    public int? ProductAuthor { get; set; }
+
+    public virtual User? ProductAuthorNavigation { get; set; }
 
     public virtual Productstype? ProductTypeNavigation { get; set; }
-
-    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }

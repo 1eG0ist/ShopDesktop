@@ -66,6 +66,7 @@ public partial class ShopDbContext : DbContext
             entity.ToTable("products");
 
             entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.ProductAuthor).HasColumnName("product_author");
             entity.Property(e => e.ProductCount)
                 .HasDefaultValueSql("1")
                 .HasColumnName("product_count");
@@ -77,6 +78,10 @@ public partial class ShopDbContext : DbContext
                 .HasColumnName("product_name");
             entity.Property(e => e.ProductPrice).HasColumnName("product_price");
             entity.Property(e => e.ProductType).HasColumnName("product_type");
+
+            entity.HasOne(d => d.ProductAuthorNavigation).WithMany(p => p.Products)
+                .HasForeignKey(d => d.ProductAuthor)
+                .HasConstraintName("products_product_author_fkey");
 
             entity.HasOne(d => d.ProductTypeNavigation).WithMany(p => p.Products)
                 .HasForeignKey(d => d.ProductType)
@@ -92,10 +97,6 @@ public partial class ShopDbContext : DbContext
             entity.Property(e => e.ProdImgId).HasColumnName("prod_img_id");
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.ProductImg).HasColumnName("product_img");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductImages)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("product_images_product_id_fkey");
         });
 
         modelBuilder.Entity<Productstype>(entity =>
@@ -146,10 +147,6 @@ public partial class ShopDbContext : DbContext
                 .HasDefaultValueSql("0")
                 .HasColumnName("transaction_product_count");
             entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.Product).WithMany(p => p.Transactions)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("transactions_product_id_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>
