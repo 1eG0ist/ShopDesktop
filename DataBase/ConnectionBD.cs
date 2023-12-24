@@ -26,31 +26,24 @@ public class ConnectionBD
     }
     
     public static string? CreateUser(string userName, string userEmail, string userPassword)
-    {
-       
-            DBUser registeredDbUser = new DBUser(
-                Helper.Database.Users.ToList().Select(c => c.UserId).Distinct().ToList().Max() + 1,
-                userName,
-                userPassword,
-                userEmail,
-                null,
-                null,
-                null
-            );
-            Helper.Database.Users.Add(registeredDbUser);
-            try
-            {
-                Helper.Database.SaveChanges();
-                SessionData.registeredUser = registeredDbUser;
-            }
-            catch (DbUpdateException ex)
-            {
-                return ex.InnerException.Message;
-            }
-            return null;
+    { 
+        User user = ModelConstructors.createUser(userName, userPassword, userEmail);
+        Helper.Database.Users.Add(user);
+        try { Helper.Database.SaveChanges(); }
+        catch (DbUpdateException ex) { return ex.InnerException.Message; }
+
+        return null;
     }
 
-    public static DBUser GetUser(string userEmail)
+    public static string? createUserRole(UserRole userRole)
+    {
+        Helper.Database.UserRoles.Add(userRole);
+        try { Helper.Database.SaveChanges(); }
+        catch (DbUpdateException ex) { return ex.InnerException.Message; }
+        return null;
+    }
+
+    public static User GetUser(string userEmail)
     {
         try
         {
@@ -59,12 +52,27 @@ public class ConnectionBD
             {
                 if (user.UserEmail == userEmail)
                 {
-                    return new DBUser(user);
+                    return user;
                 }
             }
             return null;
         }
         catch (DbUpdateException ex)
+        {
+            return null;
+        }
+    }
+
+    public static string[] GetUserRoles(int user_id)
+    {
+        try
+        {
+            IEnumerable<int?> roles_from_user = Helper.Database.UserRoles.
+                Where(role => role.UserId == user_id).ToList().Select(x => x.RoleId);
+            string[] roles = Helper.Database.Roles.Where(role => roles_from_user.Contains(role.RoleId)).ToList().Select(x => x.RoleName).ToArray();
+            return roles;
+        }
+        catch
         {
             return null;
         }
@@ -137,14 +145,14 @@ public class ConnectionBD
         return null;
     }
     
-    public static string? UpdateUserAge(int age)
+    public static string? UpdateUserBirthdate(DateOnly birthdate)
     {
         try
         {
             var user = Helper.Database.Users.FirstOrDefault(u => u.UserId == SessionData.registeredUser.UserId);
             if (user != null)
             {
-                user.Age = age; // Update field, which contains photo in bytea
+                user.Birthdate = birthdate; 
                 Helper.Database.SaveChanges();
             }
         }

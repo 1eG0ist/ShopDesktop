@@ -16,7 +16,11 @@ public partial class ShopDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Notification> Notifications { get; set; }
+
     public virtual DbSet<Product> Products { get; set; }
+
+    public virtual DbSet<ProductImage> ProductImages { get; set; }
 
     public virtual DbSet<Productstype> Productstypes { get; set; }
 
@@ -26,12 +30,35 @@ public partial class ShopDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<UserRole> UserRoles { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql("Host=localhost;Database=shopDB;Username=postgres;password=admin");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasKey(e => e.NotificationId).HasName("notifications_pkey");
+
+            entity.ToTable("notifications");
+
+            entity.Property(e => e.NotificationId).HasColumnName("notification_id");
+            entity.Property(e => e.IsNew)
+                .HasDefaultValueSql("true")
+                .HasColumnName("is_new");
+            entity.Property(e => e.NotificationAuthor).HasColumnName("notification_author");
+            entity.Property(e => e.NotificationData)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("notification_data");
+            entity.Property(e => e.NotificationText)
+                .HasMaxLength(300)
+                .HasColumnName("notification_text");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+        });
+
         modelBuilder.Entity<Product>(entity =>
         {
             entity.HasKey(e => e.ProductId).HasName("products_pkey");
@@ -45,12 +72,30 @@ public partial class ShopDbContext : DbContext
             entity.Property(e => e.ProductDescription)
                 .HasMaxLength(300)
                 .HasColumnName("product_description");
-            entity.Property(e => e.ProductImg).HasColumnName("product_img");
             entity.Property(e => e.ProductName)
                 .HasMaxLength(150)
                 .HasColumnName("product_name");
             entity.Property(e => e.ProductPrice).HasColumnName("product_price");
             entity.Property(e => e.ProductType).HasColumnName("product_type");
+
+            entity.HasOne(d => d.ProductTypeNavigation).WithMany(p => p.Products)
+                .HasForeignKey(d => d.ProductType)
+                .HasConstraintName("products_product_type_fkey");
+        });
+
+        modelBuilder.Entity<ProductImage>(entity =>
+        {
+            entity.HasKey(e => e.ProdImgId).HasName("product_images_pkey");
+
+            entity.ToTable("product_images");
+
+            entity.Property(e => e.ProdImgId).HasColumnName("prod_img_id");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.ProductImg).HasColumnName("product_img");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductImages)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("product_images_product_id_fkey");
         });
 
         modelBuilder.Entity<Productstype>(entity =>
@@ -118,7 +163,7 @@ public partial class ShopDbContext : DbContext
             entity.HasIndex(e => e.UserName, "users_user_name_key").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
-            entity.Property(e => e.Age).HasColumnName("age");
+            entity.Property(e => e.Birthdate).HasColumnName("birthdate");
             entity.Property(e => e.Photo).HasColumnName("photo");
             entity.Property(e => e.UserEmail)
                 .HasMaxLength(60)
@@ -129,13 +174,25 @@ public partial class ShopDbContext : DbContext
             entity.Property(e => e.UserPassword)
                 .HasMaxLength(30)
                 .HasColumnName("user_password");
-            entity.Property(e => e.UserRole)
-                .HasDefaultValueSql("1")
-                .HasColumnName("user_role");
+        });
 
-            entity.HasOne(d => d.UserRoleNavigation).WithMany(p => p.Users)
-                .HasForeignKey(d => d.UserRole)
-                .HasConstraintName("users_user_role_fkey");
+        modelBuilder.Entity<UserRole>(entity =>
+        {
+            entity.HasKey(e => e.UserRoleId).HasName("user_roles_pkey");
+
+            entity.ToTable("user_roles");
+
+            entity.Property(e => e.UserRoleId).HasColumnName("user_role_id");
+            entity.Property(e => e.RoleId).HasColumnName("role_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.UserRoleRoles)
+                .HasForeignKey(d => d.RoleId)
+                .HasConstraintName("user_roles_role_id_fkey");
+
+            entity.HasOne(d => d.User).WithMany(p => p.UserRoleUsers)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("user_roles_user_id_fkey");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -88,20 +88,19 @@ public partial class ProfilePageView : UserControl
         }
     }
 
-    private void ChangeAge_OnClick(object? sender, RoutedEventArgs e)
+    private void ChangeBirthdate_OnClick(object? sender, RoutedEventArgs e)
     {
-        string text = Age.Text;
-        int num;
-        if ( String.IsNullOrEmpty(text) || !int.TryParse(text, out num))
+        string text = Birthday.Text;
+        if ( String.IsNullOrEmpty(text))
         {
-            Age.BorderBrush = _errorBorder;
-            Age.BorderThickness = _errorThickness;
+            Birthday.BorderBrush = _errorBorder;
+            Birthday.BorderThickness = _errorThickness;
         }
         else
         {
-            Age.BorderBrush = _rightBorder;
-            Age.BorderThickness = _rightThickness;
-            string? answer = ConnectionBD.UpdateUserAge(int.Parse(text));
+            Birthday.BorderBrush = _rightBorder;
+            Birthday.BorderThickness = _rightThickness;
+            string? answer = ConnectionBD.UpdateUserBirthdate(DateOnly.Parse(text));
 
             if (answer == null)
             {

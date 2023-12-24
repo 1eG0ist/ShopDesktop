@@ -125,11 +125,12 @@
                     <StackPanel Classes="ProfileAreaField">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
                             <TextBlock Text="Age" Classes="ForegroundHeaderSettings" VerticalAlignment="Center"/>
-                            <Button Name="ChangeAge" Classes="ChangeItemBtn" HorizontalAlignment="Center" 
-                                    Click="ChangeAge_OnClick">Change Age</Button>
+                            <Button Name="ChangeBirthdate" Classes="ChangeItemBtn" HorizontalAlignment="Center" 
+                                    Click="ChangeBirthdate_OnClick">Change Age</Button>
                         </StackPanel>
                         
-                        <TextBox Name="Age" Classes="ProfileFieldData" Text="{Binding UserAge}"/>
+                        <TextBox Name="Birthday" Classes="ProfileFieldData" Text="{Binding UserAge}"
+                                 Watermark="yyyy.mm.dd"/>
                     </StackPanel>
                     
                     <StackPanel Classes="ProfileAreaField">
