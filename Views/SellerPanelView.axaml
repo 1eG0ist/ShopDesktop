@@ -7,5 +7,16 @@
         x:Class="ShopDesktop.ViewModels.SellerPanelView"
         x:DataType="vm:SellerPanelViewModel"
         Title="Seller Panel" Icon="\Assets\app_logo.png">
-    Seller Panel
+    <Grid>
+        <!-- Ваша основная разметка страницы seller panel -->
+        
+        <!-- Кнопка для отображения/скрытия box добавления товара -->
+        <Button Content="Add product" Command="{Binding ChangeAddProductBoxVisibility}"/>
+
+        <!-- Box для добавления товара -->
+        <Border Background="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center"
+                Width="400" Height="300" Padding="20" Margin="20" IsVisible="{Binding IsAddProductBoxVisible}">
+            <!-- Здесь разместите элементы для добавления товара -->
+        </Border>
+    </Grid>
 </Window>

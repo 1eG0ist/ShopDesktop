@@ -69,7 +69,11 @@ public class ConnectionBD
         {
             IEnumerable<int?> roles_from_user = Helper.Database.UserRoles.
                 Where(role => role.UserId == user_id).ToList().Select(x => x.RoleId);
-            string[] roles = Helper.Database.Roles.Where(role => roles_from_user.Contains(role.RoleId)).ToList().Select(x => x.RoleName).ToArray();
+            string[] roles = (
+                from role in Helper.Database.Roles
+                where roles_from_user.Contains(role.RoleId)
+                select role.RoleName
+            ).ToArray();
             return roles;
         }
         catch

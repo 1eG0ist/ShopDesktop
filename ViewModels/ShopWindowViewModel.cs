@@ -13,10 +13,9 @@ namespace ShopDesktop.ViewModels;
 
 public partial class ShopWindowViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    private ViewModelBase _currentPage = new HomePageViewModel();
 
-    [ObservableProperty] 
+    private ViewModelBase _currentPage = new HomePageViewModel();
+    
     private ListItemTemplate? _selectedListItem;
 
     partial void OnSelectedListItemChanged(ListItemTemplate? value)

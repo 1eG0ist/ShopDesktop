@@ -47,12 +47,14 @@ public partial class LogInWindow : Window
     {
         SignInArea.IsVisible = false;
         SignUpArea.IsVisible = true;
+        ErrorArea.IsVisible = false;
     }
 
     private void ChangeOnSignIn_OnClick(object? sender, RoutedEventArgs e)
     {
         SignUpArea.IsVisible = false;
         SignInArea.IsVisible = true;
+        ErrorArea.IsVisible = false;
     }
     
     private void SignInEmail_OnLostFocus(object? sender, RoutedEventArgs e)

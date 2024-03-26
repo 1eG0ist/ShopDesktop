@@ -1,3 +1,4 @@
+using System;
 using System.Data.SqlTypes;
 using System.Drawing;
 using System.Linq;
@@ -73,7 +74,7 @@ public partial class ShopWindowView : Window
 
     private void SwapToAdminPanelBtn_OnTapped(object? sender, TappedEventArgs e)
     {
-        if (SessionData.userRoles.Contains("Admin"))
+        if (SessionData.userRoles.Contains("admin"))
         {
             new AdminPanelView().Show();
         }
@@ -85,7 +86,8 @@ public partial class ShopWindowView : Window
 
     private void SwapToSellerPanelBtn_OnTapped(object? sender, TappedEventArgs e)
     {
-        if (SessionData.userRoles.Contains("Seller"))
+        Console.WriteLine("HERE IS ROLES" + SessionData.userRoles);
+        if (SessionData.userRoles.Contains("seller"))
         {
             new SellerPanelView().Show();
         }
