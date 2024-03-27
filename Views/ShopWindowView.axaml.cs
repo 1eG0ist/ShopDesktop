@@ -86,7 +86,6 @@ public partial class ShopWindowView : Window
 
     private void SwapToSellerPanelBtn_OnTapped(object? sender, TappedEventArgs e)
     {
-        Console.WriteLine("HERE IS ROLES" + SessionData.userRoles);
         if (SessionData.userRoles.Contains("seller"))
         {
             new SellerPanelView().Show();
@@ -103,4 +102,16 @@ public partial class ShopWindowView : Window
         new LogInWindow().Show();
         Close();
     }
+    
+    private void ListItemBorder_PointerPressed(object sender, Avalonia.Input.PointerPressedEventArgs e)
+    {
+        if (DataContext is ShopWindowViewModel viewModel &&
+            sender is Border border &&
+            border.DataContext is ListItemTemplate listItem)
+        {
+            viewModel.OnSelectedListItemChangedCommand.Execute(listItem);
+        }
+    }
+
+
 }

@@ -26,4 +26,6 @@ public partial class Product
     public virtual User? ProductAuthorNavigation { get; set; }
 
     public virtual Productstype? ProductTypeNavigation { get; set; }
+    
+    public virtual ICollection<ProductImage> ProductImages { get; set; }
 }

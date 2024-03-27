@@ -1,29 +1,59 @@
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Avalonia.Platform;
-using Avalonia.Styling;
-using CommunityToolkit.Mvvm.ComponentModel;
+using ReactiveUI;
 
 namespace ShopDesktop.ViewModels;
 
-public partial class ShopWindowViewModel : ViewModelBase
+public class ShopWindowViewModel : ViewModelBase
 {
 
     private ViewModelBase _currentPage = new HomePageViewModel();
-    
-    private ListItemTemplate? _selectedListItem;
 
-    partial void OnSelectedListItemChanged(ListItemTemplate? value)
+    public ViewModelBase CurrentPage
     {
-        if (value is null) return;
+        get => _currentPage;
+        set
+        {
+            _currentPage = value;
+            this.RaisePropertyChanged();
+        }
+    }
+
+    private ListItemTemplate? _selectedListItem;
+    
+    public ListItemTemplate? SelectedListItem
+    {
+        get => _selectedListItem;
+        set
+        {
+            _selectedListItem = value;
+            this.RaisePropertyChanged();
+        }
+    }
+
+    public ReactiveCommand<ListItemTemplate?, Unit> OnSelectedListItemChangedCommand { get; }
+
+    public ShopWindowViewModel()
+    {
+        OnSelectedListItemChangedCommand =
+            ReactiveCommand.CreateFromObservable<ListItemTemplate?, Unit>(OnSelectedListItemChanged);
+    }
+
+    public IObservable<Unit> OnSelectedListItemChanged(ListItemTemplate? value)
+    {
+        Console.WriteLine("VALUE: " + value);
+        if (value is null) return Observable.Return(Unit.Default);
         var instance = Activator.CreateInstance(value.ModelType);
-        if (instance is null) return;
+        Console.WriteLine("INSTANCE: " + instance);
+        if (instance is null) return Observable.Return(Unit.Default);
         CurrentPage = (ViewModelBase)instance;
+        return Observable.Return(Unit.Default);
     }
 
     private static StreamGeometry GetIcon(string iconName)
@@ -45,15 +75,17 @@ public partial class ShopWindowViewModel : ViewModelBase
 
 public class ListItemTemplate
 {
-    // public var icons =
-    
-    public ListItemTemplate( Type type, StreamGeometry PageIcon)
+    public ICommand ItemSelectedCommand { get; }
+
+    public ListItemTemplate(Type type, StreamGeometry pageIcon)
     {
+        // Инициализация команды
+        ItemSelectedCommand = ReactiveCommand.CreateFromObservable(() => Observable.Return(this));
+
         ModelType = type;
-        ItemName = type.Name.Replace("PageViewModel", "") + "Name"; 
+        ItemName = type.Name.Replace("PageViewModel", "") + "Name";
         ItemLabel = type.Name.Replace("PageViewModel", "");
-        ItemImg = PageIcon;
-        // TODO: need ability to take icons from Icons.axaml by name for each item here
+        ItemImg = pageIcon;
     }
 
 

@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using Npgsql;
-using Shop.Exceptions;
-using ShopDesktop;
 using ShopDesktop.DBModels;
 using ShopDesktop.Models;
+using Exception = System.Exception;
 
 namespace ShopDesktop;
 
@@ -183,5 +180,54 @@ public class ConnectionBD
             return ex.InnerException.Message;
         }
         return null;
+    }
+
+    public static List<Product> GetSellerProducts(int userId)
+    {
+        List<Product> products = Helper.Database.Products
+            .Include(p => p.ProductImages)
+            .Where(p => p.ProductAuthor == userId)
+            .ToList();
+
+        return products;
+    }
+    
+    public static ObservableCollection<Productstype> GetAllProductsTypes()
+    {
+        List<Productstype> products = Helper.Database.Productstypes.ToList();
+        ObservableCollection<Productstype> observableProducts = new ObservableCollection<Productstype>(products);
+
+        return observableProducts;
+    }
+
+    public static Product? CreateNewProduct(Product product)
+    {
+        try
+        {
+            Product createdProduct = Helper.Database.Products.Add(product).Entity;
+            Helper.Database.SaveChanges();
+            return createdProduct;
+        }
+        catch (DbUpdateException ex)
+        {
+            Console.WriteLine(ex.InnerException.Message);
+            return null;
+        }
+    }
+
+    public static void AddNewProductImage(int productAddingImageId, byte[] productSavePhotoPhoto)
+    {
+        try
+        {
+            ProductImage productImage = new ProductImage();
+            productImage.ProductId = productAddingImageId;
+            productImage.ProductImg = productSavePhotoPhoto;
+            Helper.Database.ProductImages.Add(productImage);
+            Helper.Database.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Something went wrong by loading product photo! - " + ex.Message);
+        }
     }
 }

@@ -3,20 +3,90 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:vm="using:ShopDesktop.ViewModels"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:global="clr-namespace:"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ShopDesktop.ViewModels.SellerPanelView"
         x:DataType="vm:SellerPanelViewModel"
-        Title="Seller Panel" Icon="\Assets\app_logo.png">
-    <Grid>
-        <!-- Ваша основная разметка страницы seller panel -->
+        Title="Seller Panel" Icon="\Assets\app_logo.png" Background="#150021" Padding="10">
+    
+    <Window.DataContext>
+        <vm:SellerPanelViewModel/>
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <global:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
+    </Window.Resources>
+    
+    <DockPanel LastChildFill="True" >
+        <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Spacing="10" Width="200">
+            <!-- TextBox для фильтрации списка товаров -->
+            <TextBox Text="{Binding FilterText}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200"/>
+            <Button Content="Add product" Command="{Binding ChangeAddProductBoxVisibility}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Border Background="LightGray" Width="200" Height="400" Padding="10"
+                    IsVisible="{Binding IsAddProductBoxVisible}">
+                <StackPanel Orientation="Vertical">
+                    <TextBox Name="ProductName" Watermark="Product name"></TextBox>
+                    <ComboBox Name="TypeSelector" ItemsSource="{Binding ProductTypes}"
+                              SelectedItem="{Binding SelectedType}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding TypeName}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBox Name="ProductPrice" Watermark="Product price"></TextBox>
+                    <TextBox Name="ProductDescription" Watermark="Product description"></TextBox>
+                    <TextBox Name="ProductCount" Watermark="Product count"></TextBox>
+                    <Image Name="CreatingProductPhoto" Source="" Width="150" Height="150" Stretch="UniformToFill"/>
+                    <Button Name="SetPhotoButton" Content="Set Photo" Click="SetPhotoButton_OnClick" Background="Indigo"/>
+                    <Button Name="AddProduct" Content="Add" Click="AddProduct_OnClick" Background="Green"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
         
-        <!-- Кнопка для отображения/скрытия box добавления товара -->
-        <Button Content="Add product" Command="{Binding ChangeAddProductBoxVisibility}"/>
+        <Separator Width="10" Background="Transparent"/>
 
-        <!-- Box для добавления товара -->
-        <Border Background="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center"
-                Width="400" Height="300" Padding="20" Margin="20" IsVisible="{Binding IsAddProductBoxVisible}">
-            <!-- Здесь разместите элементы для добавления товара -->
-        </Border>
-    </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" DockPanel.Dock="Right">
+            <ListBox ItemsSource="{Binding UserProducts}" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Black" BorderThickness="1" Padding="5" Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <ItemsControl ItemsSource="{Binding ProductImages}" Margin="0,0,10,0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding ProductImg, Converter={StaticResource ByteArrayToImageConverter}}" Width="100" Height="100" Stretch="UniformToFill" Margin="0,0,5,0"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock FontWeight="Bold" Text="Name: "/>
+                                        <TextBlock Text="{Binding ProductName}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock FontWeight="Bold" Text="Type: "/>
+                                        <TextBlock Text="{Binding ProductTypeNavigation.TypeName}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock FontWeight="Bold" Text="Price: "/>
+                                        <TextBlock Text="{Binding ProductPrice}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock FontWeight="Bold" Text="Description: "/>
+                                        <TextBlock Text="{Binding ProductDescription}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock FontWeight="Bold" Text="Count: "/>
+                                        <TextBlock Text="{Binding ProductCount}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
+    </DockPanel>
+
 </Window>

@@ -93,24 +93,20 @@
                              SelectedItem="{Binding SelectedListItem}">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type vm:ListItemTemplate}">
-                                <StackPanel Orientation="Horizontal" Spacing="10">
-                                    <PathIcon Data="{Binding ItemImg}"/>
-                                    <TextBlock Name="{Binding ItemName}" 
-                                               Text="{Binding ItemLabel}"/>
-                                    
-                                </StackPanel>
+                                <Border PointerPressed="ListItemBorder_PointerPressed" Margin="0"
+                                        MinWidth="0"
+                                        MinHeight="0">
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <PathIcon Data="{Binding ItemImg}"/>
+                                        <TextBlock Name="{Binding ItemName}" 
+                                                   Text="{Binding ItemLabel}"
+                                                   Background="Transparent"/>
+                                    </StackPanel>
+                                </Border>
                                 <!-- <ListBoxItem Classes="PaneMenu" Content="{Binding Label}"/> -->
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    
-                    <!-- <ListBox Grid.Row="1" Background="Transparent" > -->
-                    <!--     <ListBoxItem Name="HomeItem" Classes="PaneMenu" Content="Home" Tapped="HomeItem_OnTapped"/> -->
-                    <!--     <ListBoxItem Name="ProfileItem" Classes="PaneMenu" Content="Profile" Tapped="ProfileItem_OnTapped"/> -->
-                    <!--     <ListBoxItem Name="HistoryItem" Classes="PaneMenu" Content="Buy history"/> -->
-                    <!--     <ListBoxItem Name="SettingsItem" Classes="PaneMenu" Content="Settings"/> -->
-                    <!--     <ListBoxItem Name="LogOutItem" Classes="PaneMenu" Content="Log out" Tapped="LogOutItem_OnTapped"/> -->
-                    <!-- </ListBox> -->
                     
                     <ListBox Grid.Row="2" VerticalAlignment="Bottom" Background="Transparent">
                         <ListBoxItem Name="SwapToAdminPanelBtn" Padding="0" Content="Admin Panel" Tapped="SwapToAdminPanelBtn_OnTapped"/>
