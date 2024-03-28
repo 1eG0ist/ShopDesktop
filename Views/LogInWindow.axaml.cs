@@ -190,6 +190,7 @@ public partial class LogInWindow : Window
 
     private void AccessSignUp_OnClick(object? sender, RoutedEventArgs e)
     {
+        Console.WriteLine("YA TUTa");
         if ( _signUpState.Values.Any(b => b == false) )
         {
             SetErrorMessage("Some field(s) have wrong filling");

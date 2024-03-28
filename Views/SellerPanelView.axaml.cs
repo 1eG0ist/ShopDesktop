@@ -58,4 +58,19 @@ public partial class SellerPanelView : Window
             viewModel.ProductPhoto = File.ReadAllBytes(result[0]);
         }
     }
+    
+    private void DeleteProductButton_Click(object sender, RoutedEventArgs e)
+    {
+        
+        var product = (sender as Button)?.DataContext as Product;
+    
+        if (product != null)
+        {
+            SellerPanelViewModel viewModel = (SellerPanelViewModel)DataContext;
+            ConnectionBD.DeleteProduct(product);
+            viewModel.AllUserProducts = ConnectionBD.GetSellerProducts(SessionData.registeredUser.UserId);
+        }
+        
+    }
+
 }

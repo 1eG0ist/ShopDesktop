@@ -51,37 +51,51 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="Black" BorderThickness="1" Padding="5" Margin="5">
-                            <StackPanel Orientation="Horizontal">
-                                <ItemsControl ItemsSource="{Binding ProductImages}" Margin="0,0,10,0">
+                            <Grid Name="ASdasd">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ItemsControl Grid.Column="0" ItemsSource="{Binding ProductImages}" Margin="0,0,10,0">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Image Source="{Binding ProductImg, Converter={StaticResource ByteArrayToImageConverter}}" Width="100" Height="100" Stretch="UniformToFill" Margin="0,0,5,0"/>
+                                            <Image Source="{Binding ProductImg, Converter={StaticResource ByteArrayToImageConverter}}" Width="100" Height="100" Stretch="Uniform" Margin="0,0,5,0"/>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <StackPanel Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal" Spacing="5">
-                                        <TextBlock FontWeight="Bold" Text="Name: "/>
-                                        <TextBlock Text="{Binding ProductName}"/>
+
+                                <!-- Текстовые данные продукта -->
+                                <Border Grid.Column="1" Padding="5" Margin="5">
+                                    <StackPanel  Orientation="Vertical" Margin="0,0,10,0">
+                                        <DockPanel>
+                                            <TextBlock FontWeight="Bold" Text="Name: "/>
+                                            <TextBlock Text="{Binding ProductName}" TextWrapping="Wrap"/>
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <TextBlock FontWeight="Bold" Text="Type: "/>
+                                            <TextBlock Text="{Binding ProductTypeNavigation.TypeName}" TextWrapping="Wrap"/>
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <TextBlock FontWeight="Bold" Text="Price: "/>
+                                            <TextBlock Text="{Binding ProductPrice}" TextWrapping="Wrap"/>
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <TextBlock FontWeight="Bold" Text="Description: "/>
+                                            <TextBlock Text="{Binding ProductDescription}" TextWrapping="Wrap"/>
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <TextBlock FontWeight="Bold" Text="Count: "/>
+                                            <TextBlock Text="{Binding ProductCount}" TextWrapping="Wrap" MaxWidth=""/>
+                                        </DockPanel>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="5">
-                                        <TextBlock FontWeight="Bold" Text="Type: "/>
-                                        <TextBlock Text="{Binding ProductTypeNavigation.TypeName}"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="5">
-                                        <TextBlock FontWeight="Bold" Text="Price: "/>
-                                        <TextBlock Text="{Binding ProductPrice}"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="5">
-                                        <TextBlock FontWeight="Bold" Text="Description: "/>
-                                        <TextBlock Text="{Binding ProductDescription}"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="5">
-                                        <TextBlock FontWeight="Bold" Text="Count: "/>
-                                        <TextBlock Text="{Binding ProductCount}"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </StackPanel>
+                                </Border>
+
+                                <Button Grid.Column="2" Click="DeleteProductButton_Click" HorizontalAlignment="Right" >
+                                    <PathIcon Data="{StaticResource DeleteRegular}" Foreground="Aquamarine" Height="100" Width="100"/>
+                                </Button>
+                            </Grid>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

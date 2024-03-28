@@ -230,4 +230,17 @@ public class ConnectionBD
             Console.WriteLine("Something went wrong by loading product photo! - " + ex.Message);
         }
     }
+
+    public static void DeleteProduct(Product product)
+    {
+        try
+        {
+            Helper.Database.Products.Remove(product);
+            Helper.Database.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Something went wrong by loading product photo! - " + ex.Message);
+        }
+    }
 }
