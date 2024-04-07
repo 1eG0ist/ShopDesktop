@@ -9,4 +9,5 @@ public class SessionData
 {
     static public User registeredUser = null;
     static public string[] userRoles;
+    static public List<Product> cartProducts = new List<Product>();
 }

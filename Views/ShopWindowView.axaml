@@ -22,7 +22,7 @@
         <StyleInclude Source="Styles/MainStyle.axaml"></StyleInclude>
         <Styles>
             
-            <Style Selector="ListBoxItem">
+            <Style Selector="ListBoxItem.menu">
                 <Setter Property="Background" Value="Teal"></Setter>
                 <Setter Property="Height" Value="30"></Setter>
                 <Setter Property="Padding" Value="5 0 0 0 "></Setter>
@@ -91,11 +91,39 @@
                     
                     <ListBox Grid.Row="1" Background="Transparent" ItemsSource="{Binding Items}"
                              SelectedItem="{Binding SelectedListItem}">
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Background" Value="Teal"></Setter>
+                                <Setter Property="Height" Value="30"></Setter>
+                                <Setter Property="Padding" Value="5 0 0 0 "></Setter>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                                <Setter Property="Opacity" Value="0.9"></Setter>
+                                <Setter Property="CornerRadius" Value="10"></Setter>
+                                <Setter Property="Foreground" Value="Aquamarine"></Setter>
+                                <Setter Property="Margin" Value="0 0 0 5"></Setter>
+                                <Setter Property="BorderBrush" Value="Aquamarine"></Setter>
+                                <Setter Property="BorderThickness" Value="1"></Setter>
+                
+                                <Style Selector="^:pointerover /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="Teal"></Setter>
+                                    <Setter Property="Foreground" Value="Aquamarine"></Setter>
+                                    <Setter Property="Opacity" Value="0.8"></Setter>
+                                </Style>
+                
+                                <Style Selector="^:pressed /template/ ContentPresenter">
+                                    <Setter Property="Background" Value="Indigo"/>
+                                    <Setter Property="Foreground" Value="Aquamarine"/>
+                                </Style>
+                            </Style>
+                        </ListBox.Styles>
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type vm:ListItemTemplate}">
+                                
                                 <Border PointerPressed="ListItemBorder_PointerPressed" Margin="0"
                                         MinWidth="0"
-                                        MinHeight="0">
+                                        MinHeight="0"
+                                        Classes="menu">
                                     <StackPanel Orientation="Horizontal" Spacing="10">
                                         <PathIcon Data="{Binding ItemImg}"/>
                                         <TextBlock Name="{Binding ItemName}" 
@@ -103,15 +131,14 @@
                                                    Background="Transparent"/>
                                     </StackPanel>
                                 </Border>
-                                <!-- <ListBoxItem Classes="PaneMenu" Content="{Binding Label}"/> -->
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
                     
                     <ListBox Grid.Row="2" VerticalAlignment="Bottom" Background="Transparent">
-                        <ListBoxItem Name="SwapToAdminPanelBtn" Padding="0" Content="Admin Panel" Tapped="SwapToAdminPanelBtn_OnTapped"/>
-                        <ListBoxItem Name="SwapToSellerPanelBtn" Padding="0" Content="Seller Panel" Tapped="SwapToSellerPanelBtn_OnTapped"/>
-                        <ListBoxItem Name="LogOutBtn" Padding="0" Content="Log out" Tapped="LogOutBtn_OnTapped"/>
+                        <ListBoxItem Classes="menu" Name="SwapToAdminPanelBtn" Padding="0" Content="Admin Panel" Tapped="SwapToAdminPanelBtn_OnTapped"/>
+                        <ListBoxItem Classes="menu" Name="SwapToSellerPanelBtn" Padding="0" Content="Seller Panel" Tapped="SwapToSellerPanelBtn_OnTapped"/>
+                        <ListBoxItem Classes="menu" Name="LogOutBtn" Padding="0" Content="Log out" Tapped="LogOutBtn_OnTapped"/>
                     </ListBox>
                     
                 </Grid>

@@ -71,7 +71,6 @@ namespace ShopDesktop.ViewModels
         {
             ChangeAddProductBoxVisibility = ReactiveCommand.Create(ChangeAddProductBoxVisibilityExecute);
 
-            // Пример данных для списка товаров пользователя
             _allUserProducts = ConnectionBD.GetSellerProducts(SessionData.registeredUser.UserId);
 
             UserProducts = new ObservableCollection<Product>(_allUserProducts);

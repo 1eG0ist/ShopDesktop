@@ -6,5 +6,164 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ShopDesktop.Views.CartPageView"
              x:DataType="vm:CartPageViewModel">
-    Cart page 
+    
+    <Control.Styles>
+        <Styles>
+            
+            <Style Selector="ListBoxItem">
+                <Setter Property="Background" Value="Teal"></Setter>
+                <Setter Property="Padding" Value="5 0 0 0 "></Setter>
+                <Setter Property="Opacity" Value="0.9"></Setter>
+                <Setter Property="CornerRadius" Value="10"></Setter>
+                <Setter Property="Foreground" Value="Aquamarine"></Setter>
+                <Setter Property="Margin" Value="0 0 0 5"></Setter>
+                <Setter Property="BorderBrush" Value="Aquamarine"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+            
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Teal"></Setter>
+                    <Setter Property="Foreground" Value="Aquamarine"></Setter>
+                    <Setter Property="Opacity" Value="0.8"></Setter>
+                </Style>
+            
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Teal"/>
+                    <Setter Property="Foreground" Value="Aquamarine"/>
+                </Style>
+                
+                <Style Selector="^:selected">
+                    <Setter Property="Background" Value="Teal"/>
+                    <Setter Property="Foreground" Value="Aquamarine"/>
+                </Style>
+            </Style>
+
+            <Style Selector="TextBox.StandartInput">
+                <Setter Property="Opacity" Value="0.5"></Setter>
+                <Setter Property="CornerRadius" Value="10"></Setter>
+                <Setter Property="BorderBrush" Value="Aquamarine"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+            </Style>
+
+            <Style Selector="Button.TransparentBtn">
+                <Setter Property="Background" Value="Transparent"></Setter>
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Style>
+
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                    <Setter Property="Background" Value="DarkSlateGray"/>
+                </Style>
+            </Style>
+
+            <Style Selector="Button.MenuItemBtn">
+                <Setter Property="Background" Value="Transparent"></Setter>
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Style>
+
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Indigo"/>
+                    <Setter Property="Foreground" Value="Aquamarine"/>
+                </Style>
+            </Style>
+
+            <Style Selector="TextBlock.ForegroundSettings">
+                <Setter Property="Foreground" Value="Indigo"></Setter>
+                <Setter Property="FontSize" Value="14"></Setter>
+                <Setter Property="FontWeight" Value="Normal"></Setter>
+            </Style>
+
+            <Style Selector="Button.BuyBtn">
+                <Setter Property="BorderBrush" Value="Aquamarine"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+                <Setter Property="CornerRadius" Value="10"></Setter>
+
+                <Style Selector="^:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="BlueViolet"/>
+                    <Setter Property="BorderBrush" Value="Teal"/>
+                </Style>
+
+                <Style Selector="^:pressed /template/ ContentPresenter">
+                    <Setter Property="Background" Value="DarkSlateBlue"/>
+                    <Setter Property="BorderBrush" Value="Indigo"/>
+                </Style>
+            </Style>
+
+        </Styles>
+
+    </Control.Styles>
+    
+        <DockPanel LastChildFill="True" >
+        <Border DockPanel.Dock="Left" Width="200" Padding="5" CornerRadius="15 0 0 0">
+        
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="Teal" Offset="0"/>
+                    <GradientStop Color="DarkSlateGray" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            
+            <StackPanel Orientation="Vertical">
+                
+                <TextBlock Text="Total Price: "/>
+                
+                <Button Name="ConfirmFilters" Click="BuyProducts_OnClick" Classes="BuyBtn" 
+                        HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 30 0 0">
+                    <TextBlock Text="Buy" Classes="ForegroundSettings"/>
+                </Button>
+                
+            </StackPanel>
+        </Border>
+            
+        <ScrollViewer VerticalScrollBarVisibility="Auto" DockPanel.Dock="Right" Background="Transparent">
+            <ListBox ItemsSource="{Binding CartProducts}" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ItemsControl Grid.Column="0" ItemsSource="{Binding ProductImages}" Margin="0,0,10,0" VerticalAlignment="Center">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="3" BorderBrush="Indigo" Margin="5" Padding="3">
+                                            <Image Source="{Binding ProductImg, Converter={StaticResource ByteArrayToImageConverter}}" Width="150" Stretch="Uniform"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Border Grid.Column="1" Padding="5" Margin="5">
+                                <StackPanel  Orientation="Vertical" Margin="0,0,10,0">
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Left" Text="{Binding ProductName}" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" Margin="0 0 10 0"/>
+                                    </DockPanel>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Left" Text="{Binding ProductPrice}" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" Foreground="Indigo"/>
+                                        <TextBlock DockPanel.Dock="Right" Text="$" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" Foreground="Indigo"/>
+                                    </DockPanel>
+                                    <DockPanel>
+                                        <TextBlock Text="{Binding ProductDescription}" TextWrapping="Wrap" FontSize="18"/>
+                                    </DockPanel>
+                                    <DockPanel>
+                                        <TextBlock FontWeight="Bold" Text="Number for sale: "/>
+                                        <TextBlock Text="{Binding ProductCount}" TextWrapping="Wrap" MaxWidth=""/>
+                                    </DockPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Button Grid.Column="2" Click="RemoveFromCartCommand_Button" HorizontalAlignment="Right" >
+                                <PathIcon Data="{StaticResource DeleteRegular}" Foreground="Aquamarine" Height="100" Width="100"/>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
+    </DockPanel>
+
+    
 </UserControl>

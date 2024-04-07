@@ -47,10 +47,8 @@ public class ShopWindowViewModel : ViewModelBase
 
     public IObservable<Unit> OnSelectedListItemChanged(ListItemTemplate? value)
     {
-        Console.WriteLine("VALUE: " + value);
         if (value is null) return Observable.Return(Unit.Default);
         var instance = Activator.CreateInstance(value.ModelType);
-        Console.WriteLine("INSTANCE: " + instance);
         if (instance is null) return Observable.Return(Unit.Default);
         CurrentPage = (ViewModelBase)instance;
         return Observable.Return(Unit.Default);

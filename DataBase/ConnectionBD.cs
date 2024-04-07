@@ -192,6 +192,15 @@ public class ConnectionBD
         return products;
     }
     
+    public static List<Product> GetAllProducts()
+    {
+        List<Product> products = Helper.Database.Products
+            .Include(p => p.ProductImages)
+            .ToList();
+
+        return products;
+    }
+    
     public static ObservableCollection<Productstype> GetAllProductsTypes()
     {
         List<Productstype> products = Helper.Database.Productstypes.ToList();
